@@ -1,8 +1,8 @@
-# pico_env_mon
+# pico-env-mon
 
 ## Connection
 
-|Pico|LS027B4DH01|BME280|MHZ19C|
+|Pico|LS027B4DH01|BME280|MH-Z19C|
 |:--|:--|:--|:--|
 |`VBUS`|`VDD`, `VDDA`, `EXTMODE`||`Vin`|
 |`3V3`||`VDD`||

@@ -14,10 +14,10 @@ int digit32_draw_char(Msb1stImage &dest, int x, int y, char c) {
     }
     else if (c == '-') {
         w = 12;
-        dest.draw_image(img_digit32, x, y, w, h, 210, 0);
+        dest.draw_image(img_digit32, x, y, w, h, 208, 0);
     }
     else {
-        w = 10;
+        w = 8;
         dest.draw_image(img_digit32, x, y, w, h, 200, 0);
     }
     return w;

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo '#include "msb1stimage.hpp"' > images.cpp
+echo '#include "msb1stimage.hpp"' > ./src/images.cpp
 
 ./make_image_data.py    ./img/digit16.png   img_digit16 >> ./src/images.cpp
 ./make_image_data.py    ./img/digit32.png   img_digit32 >> ./src/images.cpp
