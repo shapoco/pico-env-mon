@@ -27,6 +27,10 @@ static const int SAMPLING_INTERVAL_MS = 5000;
 static const int GRAPH_TIME_RANGE_H = 24;
 static const int GRAPH_SHIFT_INTERVAL_MS = GRAPH_TIME_RANGE_H * 3600 * 1000 / Graph::DEPTH;
 
+// 温度は湿度・気圧の補正用であり気温よりやや高いため適当に補正する
+// 補正値の適正値はセンサの使用条件により異なる
+static const float TEMPERATURE_OFFSET = -3.0f;
+
 LcdScreen screen;
 LcdDriver lcd(spi_default, 20, 22, 21);
 
@@ -90,8 +94,7 @@ void sample(bool shift) {
     float tf, pf, hf;
     bme280.read_env(&tf, &hf, &pf);
 
-    // 温度は湿度・気圧の補正用であり気温よりやや高いため適当に補正する
-    tf -= 4.0f;
+    tf += TEMPERATURE_OFFSET;
 
     int co2;
     mhz19c.measure(&co2);
