@@ -23,6 +23,10 @@
 - [フレキコネクタDIP化キット(AE-CNCONV-10P-0.5)](https://akizukidenshi.com/catalog/g/gK-07253/)
 - [BME280使用　温湿度・気圧センサモジュールキット (AE-BME280)](https://akizukidenshi.com/catalog/g/gK-09421/)
 - [CO2センサーモジュール MH-Z19C](https://akizukidenshi.com/catalog/g/gM-16142/)
+- その他
+    - ユニバーサル基板
+    - 配線類
+    - microUSBケーブル (書き込み/電源供給)
 
 ----
 
@@ -85,7 +89,7 @@ BME280 で取得できる温度の値は湿度と気圧の補正のためのも�
 
 実際の気温とどの程度乖離するかはセンサの使用条件によります。ケースに入れたり、BME280 を CO2センサに近接させたりすると乖離が大きくなります。
 
-補正値を変更するには、`src/pico_env_mon.cpp` の次の箇所を変更してコンパイルし直してください。
+補正値を変更するには、`src/pico_env_mon.cpp` の次の箇所を変更してビルドし直してください。
 
 ```c++
 static const float TEMPERATURE_OFFSET = -3.0f;
