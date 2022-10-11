@@ -23,6 +23,8 @@
 - [フレキコネクタDIP化キット(AE-CNCONV-10P-0.5)](https://akizukidenshi.com/catalog/g/gK-07253/)
 - [BME280使用　温湿度・気圧センサモジュールキット (AE-BME280)](https://akizukidenshi.com/catalog/g/gK-09421/)
 - [CO2センサーモジュール MH-Z19C](https://akizukidenshi.com/catalog/g/gM-16142/)
+    - ピンヘッダが付いていますが 2.54mmピッチのユニバーサル基板には適合しません。1.27mmピッチのユニバーサル基板を使用するか、ピンヘッダを使用せずに配線してください。
+- [分割ロングピンソケット 1x42(42P)](https://akizukidenshi.com/catalog/g/gC-05779/)
 - その他
     - ユニバーサル基板
     - 配線類
