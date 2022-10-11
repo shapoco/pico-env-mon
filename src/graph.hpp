@@ -7,21 +7,32 @@
 
 class Graph {
 public:
+    // number of samples
     static const int DEPTH = 240;
+
+    // size
     static const int WIDTH = DEPTH;
     static const int HEIGHT = 60;
+
     static const int VERTICAL_LINE_STEP = WIDTH / 8;
+
+    // position
     const int left, top;
-    const float min_scale;
+    
+    // minimum vertical range
+    const float min_range;
+
     float min_log[DEPTH];
     float max_log[DEPTH];
     int num_data = 0;
+
     float total_min = 0;
     float total_max = 0;
-    float y_step = 1;
 
-    Graph(int x, int y, float min_scale) : 
-        left(x), top(y), min_scale(min_scale)
+    float horizontal_line_step = 1;
+
+    Graph(int x, int y, float min_range) : 
+        left(x), top(y), min_range(min_range)
     { }
 
     void push(float value, bool shift) {
@@ -61,13 +72,13 @@ public:
         
     }
 
-    void draw(Msb1stImage &dest) {
+    void render(Msb1stImage &dest) {
         if (num_data <= 0) return;
 
         int x_plot = left + WIDTH - 1;
         float total_center = (total_min + total_max) / 2;
         float y_range = total_max - total_min;
-        if (y_range < min_scale) y_range = min_scale;
+        if (y_range < min_range) y_range = min_range;
         float y_zoom = HEIGHT / y_range;
 
         int y_offset = top + HEIGHT / 2 + total_center * y_zoom;
@@ -91,24 +102,24 @@ public:
         float y_scale = level_top - level_bottom;
 
         // step of horizontal lines
-        if (y_scale > 1000) y_step = 500;
-        else if (y_scale > 500) y_step = 200;
-        else if (y_scale > 200) y_step = 100;
-        else if (y_scale > 100) y_step = 50;
-        else if (y_scale > 50) y_step = 20;
-        else if (y_scale > 20) y_step = 10;
-        else if (y_scale > 10) y_step = 5;
-        else if (y_scale > 5) y_step = 2;
-        else if (y_scale > 2) y_step = 1;
-        else if (y_scale > 1) y_step = 0.5f;
-        else y_step = 0.2f;
+        if (y_scale > 1000) horizontal_line_step = 500;
+        else if (y_scale > 500) horizontal_line_step = 200;
+        else if (y_scale > 200) horizontal_line_step = 100;
+        else if (y_scale > 100) horizontal_line_step = 50;
+        else if (y_scale > 50) horizontal_line_step = 20;
+        else if (y_scale > 20) horizontal_line_step = 10;
+        else if (y_scale > 10) horizontal_line_step = 5;
+        else if (y_scale > 5) horizontal_line_step = 2;
+        else if (y_scale > 2) horizontal_line_step = 1;
+        else if (y_scale > 1) horizontal_line_step = 0.5f;
+        else horizontal_line_step = 0.2f;
         
         // draw horizontal lines
-        float level = y_step * ceilf(level_bottom / y_step);
+        float level = horizontal_line_step * ceilf(level_bottom / horizontal_line_step);
         while (level < level_top) {
             int y_line = y_offset - level * y_zoom;
             dest.draw_horizontal_dotted_line(left, y_line, WIDTH, 0);
-            level += y_step;
+            level += horizontal_line_step;
         }
 
         // draw vertical lines

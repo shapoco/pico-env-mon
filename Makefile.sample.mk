@@ -15,7 +15,7 @@ $(BIN): $(SRC_LIST) CMakeLists.txt
 	mkdir -p $(BUILD_DIR)
 	cd $(BUILD_DIR) \
 		&& cmake .. \
-		&& \make -j8
+		&& make -j
 	@echo "------------------------------"
 	@echo "UF2 File:"
 	@echo $(REPO_DIR)/$(BIN)

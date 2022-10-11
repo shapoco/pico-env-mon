@@ -28,7 +28,7 @@ int digit32_draw_string(Msb1stImage &dest, int x, int y, const char *s) {
     char c;
     while ((c = *(ptr++))) {
         x += digit32_draw_char(dest, x, y, c);
-        x += 2;
+        x += 4;
     }
     return x;
 }

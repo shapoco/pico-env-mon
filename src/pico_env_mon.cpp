@@ -64,6 +64,7 @@ int main() {
     int graph_shift_interval_counter = 0;
 
     while (true) {
+        // keep interval
         sleep_until(t_next_lcd_toggle);
         t_next_lcd_toggle = delayed_by_ms(t_next_lcd_toggle, LCD_TOGGLE_INTERVAL_MS);
         
@@ -90,74 +91,117 @@ int main() {
     }
 }
 
-void sample(bool shift) {
-    float tf, pf, hf;
-    bme280.read_env(&tf, &hf, &pf);
+static void sample(bool shift) {
+    // read BME280
+    float temperature, pressure, humidity;
+    bme280.read_env(&temperature, &humidity, &pressure);
+    temperature += TEMPERATURE_OFFSET;
 
-    tf += TEMPERATURE_OFFSET;
-
+    // read CO2
     int co2;
     mhz19c.measure(&co2);
 
-    // graph shift
-    graph_t.push(tf, shift);
-    graph_h.push(hf, shift);
-    graph_p.push(pf, shift);
+    // enter new value to the graphs
+    graph_t.push(temperature, shift);
+    graph_h.push(humidity, shift);
+    graph_p.push(pressure, shift);
     graph_c.push(co2, shift);
-
-    int x = 245;
-    int y = 0;
-    int x_unit;
+    
+    int x_value = 245;
     char s[8];
 
     absolute_time_t t_start = get_absolute_time();
 
     screen.clear(1);
 
-    graph_t.draw(screen);
-    sprintf(s, "%-.1f", tf);
-    x_unit = digit32_draw_string(screen, x, y + 4, s);
-    screen.draw_image(img_degc, x_unit, y + 16);
-    screen.draw_image(img_step, x, y + 40);
-    sprintf(s, "%-.1f %-.1f/%-.1f", graph_t.y_step, graph_t.total_min, graph_t.total_max);
-    digit16_draw_string(screen, x + img_step.width + 2, y + 40, s);
+    // temperature
+    {
+        int y = graph_t.top;
+        int x_unit;
 
-    y += 60;
-    screen.fill_rect(0, y - 1, screen.width, 1, 0);
+        // graph
+        graph_t.render(screen);
 
-    graph_h.draw(screen);
-    sprintf(s, "%-.1f", hf);
-    x_unit = digit32_draw_string(screen, x, y + 4, s);
-    screen.draw_image(img_percent, x_unit, y + 16);
-    screen.draw_image(img_step, x, y + 40);
-    sprintf(s, "%-.1f %-.1f/%-.1f", graph_h.y_step, graph_h.total_min, graph_h.total_max);
-    digit16_draw_string(screen, x + img_step.width + 2, y + 40, s);
+        // current value
+        sprintf(s, "%-.1f", temperature);
+        x_unit = digit32_draw_string(screen, x_value, y + 4, s);
+        screen.draw_image(img_degc, x_unit, y + 16);
 
-    y += 60;
-    screen.fill_rect(0, y - 1, screen.width, 1, 0);
+        // scale, min/max
+        screen.draw_image(img_step, x_value, y + 40);
+        sprintf(s, "%-.1f %-.1f/%-.1f", graph_t.horizontal_line_step, graph_t.total_min, graph_t.total_max);
+        digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
 
-    graph_p.draw(screen);
-    sprintf(s, "%-.0f", pf);
-    x_unit = digit32_draw_string(screen, x, y + 4, s);
-    screen.draw_image(img_hpa, x_unit, y + 16);
-    screen.draw_image(img_step, x, y + 40);
-    sprintf(s, "%-.1f %-.0f/%-.0f", graph_p.y_step, graph_p.total_min, graph_p.total_max);
-    digit16_draw_string(screen, x + img_step.width + 2, y + 40, s);
+        // horizontal line
+        screen.fill_rect(0, y + graph_t.HEIGHT - 1, screen.width, 1, 0);
+    }
 
-    y += 60;
-    screen.fill_rect(0, y - 1, screen.width, 1, 0);
-    
-    graph_c.draw(screen);
-    sprintf(s, "%d", co2);
-    x_unit = digit32_draw_string(screen, x, y + 4, s);
-    screen.draw_image(img_ppm, x_unit, y + 16);
-    screen.draw_image(img_step, x, y + 40);
-    sprintf(s, "%-.0f %-.0f/%-.0f", graph_c.y_step, graph_c.total_min, graph_c.total_max);
-    digit16_draw_string(screen, x + img_step.width + 2, y + 40, s);
+    // humidity
+    {
+        int y = graph_h.top;
+        int x_unit;
+
+        // graph
+        graph_h.render(screen);
+
+        // current value
+        sprintf(s, "%-.1f", humidity);
+        x_unit = digit32_draw_string(screen, x_value, y + 4, s);
+        screen.draw_image(img_percent, x_unit, y + 16);
+
+        // scale, min/max
+        screen.draw_image(img_step, x_value, y + 40);
+        sprintf(s, "%-.1f %-.1f/%-.1f", graph_h.horizontal_line_step, graph_h.total_min, graph_h.total_max);
+        digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
+
+        // horizontal line
+        screen.fill_rect(0, y + graph_h.HEIGHT - 1, screen.width, 1, 0);
+    }
+
+    // pressure
+    {
+        int y = graph_p.top;
+        int x_unit;
+
+        // graph
+        graph_p.render(screen);
+
+        // current value
+        sprintf(s, "%-.0f", pressure);
+        x_unit = digit32_draw_string(screen, x_value, y + 4, s);
+        screen.draw_image(img_hpa, x_unit, y + 16);
+
+        // scale, min/max
+        screen.draw_image(img_step, x_value, y + 40);
+        sprintf(s, "%-.1f %-.0f/%-.0f", graph_p.horizontal_line_step, graph_p.total_min, graph_p.total_max);
+        digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
+
+        // horizontal line
+        screen.fill_rect(0, y + graph_p.HEIGHT - 1, screen.width, 1, 0);
+    }
+
+    // CO2
+    {
+        int y = graph_c.top;
+        int x_unit;
+
+        // graph
+        graph_c.render(screen);
+
+        // current value
+        sprintf(s, "%d", co2);
+        x_unit = digit32_draw_string(screen, x_value, y + 4, s);
+        screen.draw_image(img_ppm, x_unit, y + 16);
+
+        // scale, min/max
+        screen.draw_image(img_step, x_value, y + 40);
+        sprintf(s, "%-.0f %-.0f/%-.0f", graph_c.horizontal_line_step, graph_c.total_min, graph_c.total_max);
+        digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
+    }
 
     absolute_time_t t_end = get_absolute_time();
 
-    // screen update time
+    // show screen update time
     //int64_t t_elapsed_us = absolute_time_diff_us(t_start, t_end);
     //sprintf(s, "%ld", t_elapsed_us);
     //digit16_draw_string(screen, 0, 0, s);
