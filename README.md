@@ -57,7 +57,7 @@
 
 ### バイナリ
 
-1. `pico_env_mon.uf2` をダウンロードします。
+1. [Releases](https://github.com/shapoco/pico-env-mon/releases) から `pico_env_mon_x.x.zip` をダウンロードし、展開します。
 2. Raspberry Pi Pico の `BOOT SEL`ボタンを押しながら USBケーブルを接続し、書き込みモードにします。
 3. `pico_env_mon.uf2` を Raspberry Pi Pico に書き込みます。
 
