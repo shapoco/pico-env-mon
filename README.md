@@ -4,7 +4,7 @@
 
 温度、湿度、気圧、CO2濃度を 5秒間隔で取得し、24時間のトレンドグラフとともに表示します。
 
-ディスプレイは発光しないので寝室等でも使用できます。
+反射型のディスプレイなので寝室等でも眩しくありません。
 
 ----
 
@@ -20,10 +20,13 @@
 
 - [Raspberry Pi Pico](https://akizukidenshi.com/catalog/g/gM-16132/)
 - [シャープ モノクロHR-TFTメモリ液晶モジュール (LS027B4DH01)](https://akizukidenshi.com/catalog/g/gP-04944/)
+    - フレキケーブルは乱暴に扱うと壊れやすいので注意してください。
 - [フレキコネクタDIP化キット(AE-CNCONV-10P-0.5)](https://akizukidenshi.com/catalog/g/gK-07253/)
 - [BME280使用　温湿度・気圧センサモジュールキット (AE-BME280)](https://akizukidenshi.com/catalog/g/gK-09421/)
 - [CO2センサーモジュール MH-Z19C](https://akizukidenshi.com/catalog/g/gM-16142/)
     - ピンヘッダが付いていますが 2.54mmピッチのユニバーサル基板には適合しません。1.27mmピッチのユニバーサル基板を使用するか、ピンヘッダを使用せずに配線してください。
+- [タクトスイッチ (黒色)](https://akizukidenshi.com/catalog/g/gP-03647/)
+    - CO2センサのキャリブレーションに使用します。
 - [分割ロングピンソケット 1x42(42P)](https://akizukidenshi.com/catalog/g/gC-05779/)
 - その他
     - ユニバーサル基板
@@ -49,7 +52,7 @@
 |`GPIO21`|`EXTCOMIN`||
 |`GPIO22`|`DISP`||
 
-![接続図](img/circuit.png)
+![接続図](img/connection.png)
 
 ----
 
@@ -105,11 +108,11 @@ static const float TEMPERATURE_OFFSET = -3.0f;
 
 MH-Z19C は初期状態では正しい値を示さないケースがあるようです。
 
+屋外に放置して値が 400ppm 付近まで下がらない場合や、人がいる室内なのに 400ppm 付近に張り付いてしまう場合はキャリブレーションを実施してください。
+
 参考 : [Home Assistant: ESP32+MH-Z19CでCO2モニター構築(2) [キャリブレーション編] - Sympapaのスマートホーム日記](https://sympapa.hatenablog.com/entry/2022/06/05/091621)
 
-誰もいない風通しの良い場所に放置して値が 400ppm 付近まで下がらない場合はキャリブレーションを実施してください。
-
-1. 本機を誰もいない風通しの良い場所に 20分間放置します。
+1. 本機を屋外や誰もいない風通しの良い場所に 20分間放置します。
 2. 吐息がかからないように息を止めて、Zero Point Calibrationスイッチを 7秒間押下します。
 
 なお、本プロジェクトではオートキャリブレーションは無効化されています。
