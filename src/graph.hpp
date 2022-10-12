@@ -82,19 +82,15 @@ public:
         float y_zoom = HEIGHT / y_range;
 
         int y_offset = top + HEIGHT / 2 + total_center * y_zoom;
-        int last_y_top, last_y_bottom; 
         for (int i = 0; i < num_data; i++) {
             int y_top = y_offset - max_log[i] * y_zoom;
             int y_bottom = y_offset - min_log[i] * y_zoom;
 
-            // 変化量が大きいときに線が途切れないように前の点と繋げる
-            if (i > 0 && y_top > last_y_bottom) y_top = last_y_bottom;
-            if (i > 0 && y_bottom < last_y_top) y_bottom = last_y_top;
-            
             dest.fill_rect(x_plot, y_top - 1, 1, y_bottom - y_top + 2, 0);
+            dest.fill_rect_with_pattern(
+                x_plot, y_bottom, 1, top + HEIGHT - y_bottom);
+
             x_plot -= 1;
-            last_y_top = y_top;
-            last_y_bottom = y_bottom;
         }
 
         float level_top = (y_offset - top) / y_zoom;
@@ -118,13 +114,13 @@ public:
         float level = horizontal_line_step * ceilf(level_bottom / horizontal_line_step);
         while (level < level_top) {
             int y_line = y_offset - level * y_zoom;
-            dest.draw_horizontal_dotted_line(left, y_line, WIDTH, 0);
+            dest.draw_horizontal_dotted_line(left, y_line, WIDTH);
             level += horizontal_line_step;
         }
 
         // draw vertical lines
         for (int x_line = left + WIDTH - 1; x_line > left; x_line -= VERTICAL_LINE_STEP) {
-            dest.draw_vertical_dotted_line(x_line, top, HEIGHT, 0);
+            dest.draw_vertical_dotted_line(x_line, top, HEIGHT);
         }
     }
 };

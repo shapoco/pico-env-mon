@@ -65,6 +65,14 @@ public:
         return data[i] & mask ? 1 : 0;
     }
 
+    void invert_pixel(int x, int y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) return;
+
+        int i = y * stride + (x / 8);
+        uint8_t mask = 1 << (~x & 0x7);
+        data[i] ^= mask;
+    }
+
     void fill_rect(int x0, int y0, int w, int h, uint8_t color) {
         clip_fill_rect(width, height, &x0, &y0, &w, &h);
         int x1 = x0 + w;
@@ -76,23 +84,34 @@ public:
         }
     }
 
-    void draw_horizontal_dotted_line(int x0, int y0, int w, uint8_t color) {
+    void fill_rect_with_pattern(int x0, int y0, int w, int h) {
+        clip_fill_rect(width, height, &x0, &y0, &w, &h);
+        int x1 = x0 + w;
+        int y1 = y0 + h;
+        for (int y = y0; y < y1; y++) {
+            for (int x = x0; x < x1; x++) {
+                set_pixel(x, y, (x + y) & 1);
+            }
+        }
+    }
+
+    void draw_horizontal_dotted_line(int x0, int y0, int w) {
         int h = 1;
         clip_fill_rect(width, height, &x0, &y0, &w, &h);
         if (h < 1) return;
         int x1 = x0 + w;
         for (int x = x0; x < x1; x += 3) {
-            set_pixel(x, y0, color);
+            invert_pixel(x, y0);
         }
     }
 
-    void draw_vertical_dotted_line(int x0, int y0, int h, uint8_t color) {
+    void draw_vertical_dotted_line(int x0, int y0, int h) {
         int w = 1;
         clip_fill_rect(width, height, &x0, &y0, &w, &h);
         if (w < 1) return;
         int y1 = y0 + h;
         for (int y = y0; y < y1; y += 3) {
-            set_pixel(x0, y, color);
+            invert_pixel(x0, y);
         }
     }
 
