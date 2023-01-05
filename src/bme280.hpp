@@ -103,7 +103,7 @@ public:
         dig_H6 = (int8_t)buff[6];
             
         write_reg(0xf2, 0x1);
-        write_reg(0xf4, 0x27);
+        write_reg(0xf4, 0x24);
     }
 
     int32_t compensate_T(int32_t adc_T)
@@ -154,6 +154,8 @@ public:
     
     void read_raw(int32_t *temperature, int32_t *humidity, int32_t *pressure) {
         uint8_t buff[8];
+        write_reg(0xf4, 0x25);
+        sleep_ms(20);
         read_reg(0xf7, buff, 8);
         *pressure = ((uint32_t) buff[0] << 12) | ((uint32_t) buff[1] << 4) | (buff[2] >> 4);
         *temperature = ((uint32_t) buff[3] << 12) | ((uint32_t) buff[4] << 4) | (buff[5] >> 4);

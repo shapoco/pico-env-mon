@@ -29,7 +29,7 @@ static const int GRAPH_SHIFT_INTERVAL_MS = GRAPH_TIME_RANGE_H * 3600 * 1000 / Gr
 
 // 温度は湿度・気圧の補正用であり気温よりやや高いため適当に補正する
 // 補正値の適正値はセンサの使用条件により異なる
-static const float TEMPERATURE_OFFSET = -3.0f;
+static const float TEMPERATURE_OFFSET = -1.5f;
 
 LcdScreen screen;
 LcdDriver lcd(spi_default, 20, 22, 21);

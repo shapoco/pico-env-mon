@@ -14,17 +14,19 @@
 
 ![作例の写真](img/example.jpg)
 
+![基板の写真](img/board.jpg)
+
 ----
 
 ## 使用部品
 
 - [Raspberry Pi Pico](https://akizukidenshi.com/catalog/g/gM-16132/)
 - [シャープ モノクロHR-TFTメモリ液晶モジュール (LS027B4DH01)](https://akizukidenshi.com/catalog/g/gP-04944/)
-    - フレキケーブルは乱暴に扱うと壊れやすいので注意してください。
+    - :warning: フレキケーブルは乱暴に扱うと壊れやすいので注意してください。
 - [フレキコネクタDIP化キット(AE-CNCONV-10P-0.5)](https://akizukidenshi.com/catalog/g/gK-07253/)
 - [BME280使用　温湿度・気圧センサモジュールキット (AE-BME280)](https://akizukidenshi.com/catalog/g/gK-09421/)
 - [CO2センサーモジュール MH-Z19C](https://akizukidenshi.com/catalog/g/gM-16142/)
-    - ピンヘッダが付いていますが 2.54mmピッチのユニバーサル基板には適合しません。1.27mmピッチのユニバーサル基板を使用するか、ピンヘッダを使用せずに配線してください。
+    - :warning: ピンヘッダが付いていますが 2.54mmピッチのユニバーサル基板には適合しません。1.27mmピッチのユニバーサル基板を使用するか、ピンヘッダを使用せずに配線してください。
 - [タクトスイッチ (黒色)](https://akizukidenshi.com/catalog/g/gP-03647/)
     - CO2センサのキャリブレーションに使用します。
 - [分割ロングピンソケット 1x42(42P)](https://akizukidenshi.com/catalog/g/gC-05779/)
@@ -61,30 +63,26 @@
 ### バイナリ
 
 1. [Releases](https://github.com/shapoco/pico-env-mon/releases) から `pico_env_mon_x.x.zip` をダウンロードし、展開します。
-2. Raspberry Pi Pico の `BOOT SEL`ボタンを押しながら USBケーブルを接続し、書き込みモードにします。
+2. Raspberry Pi Pico の `BOOT SEL`ボタンを押しながら USBケーブルを接続し、書き込みモードにします (USBストレージとして認識されます)。
 3. `pico_env_mon.uf2` を Raspberry Pi Pico に書き込みます。
 
 ### ソースコードからのビルド
 
 ビルドするには Raspberry Pi Pico SDK が必要です。インストール方法はググってください。Windows の場合は WSL2上にインストールすることをお勧めします。
 
-1. 本リポジトリを clone して次のコマンドを実行します。
+1. 本リポジトリを clone し、リポジトリのディレクトリ内でビルドを実行します。
 
     ```sh
+    git clone https://github.com/shapoco/pico-env-mon.git
+    cd pico-env-mon
     mkdir build
     cd build
     cmake ..
     make
     ```
 
-    - Linux の場合は次のコマンドでもビルドできます。
-
-        ```sh
-        make -f Makefile.sample.mk
-        ```
-
-2. Raspberry Pi Pico の `BOOT SEL`ボタンを押しながら USBケーブルを接続し、書き込みモードにします。
-3. `build/pico_env_mon.uf2` を Raspberry Pi Pico に書き込みます。
+3. Raspberry Pi Pico の `BOOT SEL`ボタンを押しながら USBケーブルを接続し、書き込みモードにします (USBストレージとして認識されます)。
+4. `pico-env-mon/build/pico_env_mon.uf2` を Raspberry Pi Pico に書き込みます。
 
 ----
 
@@ -92,16 +90,18 @@
 
 ### BME280 の温度
 
-BME280 で取得できる温度の値は湿度と気圧の補正のためのもので、実際の気温より数度程度高くなります。このため、本プロジェクトではデフォルトでは取得した温度から 3.0℃ 減算した値を表示しています。
+BME280 で取得できる温度の値は湿度と気圧の補正のためのもので、実際の気温より若干高くなります。
 
-参考 : [第28回 温湿度・気圧センサ(BME280) 〜仕様概要〜 | ツール・ラボ](https://tool-lab.com/pic-practice-28/)
+> The integrated temperature sensor has been optimized for lowest noise and highest resolution. Its output is used for temperature compensation of the pressure and humidity sensors and can also be used for estimation of the ambient temperature. 
 
-実際の気温とどの程度乖離するかはセンサの使用条件によります。ケースに入れたり、BME280 を CO2センサに近接させたりすると乖離が大きくなります。
+> Temperature measured by the internal temperature sensor. This temperature value depends on the PCB temperature, sensor element self-heating and ambient temperature and is typically above ambient temperature.
+
+実際の気温とどの程度乖離するかはセンサの使用条件によります。ケースに入れたり、BME280 を CO2センサに近接させたりすると乖離が大きくなります。本プロジェクトではこれらを考慮し、デフォルトでは取得した温度から 1.5℃ 減算した値を表示します。
 
 補正値を変更するには、`src/pico_env_mon.cpp` の次の箇所を変更してビルドし直してください。
 
 ```c++
-static const float TEMPERATURE_OFFSET = -3.0f;
+static const float TEMPERATURE_OFFSET = -1.5f;
 ```
 
 ### MH-Z19C のキャリブレーション
