@@ -45,11 +45,6 @@ public:
     void disp_on() { gpio_put(pin_disp, 1); }
     void disp_off() { gpio_put(pin_disp, 0); }
 
-    void toggle_com() {
-        _com_state = !_com_state;
-        gpio_put(pin_extcomin, _com_state);
-    }
-
     static uint8_t revert_byte(uint8_t b) {
         return 
             ((b << 7) & 0x80) |
@@ -67,10 +62,20 @@ public:
 
         uint8_t gate_line = dest_y + 1;
 
+        // Make sure EXTCOMIN is low for next rising edge
+        gpio_put(pin_extcomin, 0);
+
         // chip select
         gpio_put(pin_scs, 1);
-        sleep_us(1);
+        sleep_us(3); // tsSCS minimum setup time is 3 us
         
+        // SHARP LCD must have liquid crystal cell polarity inverted at between 0.5 and 20 Hz to prevent charge built up over time
+        // Period between COM inversions must be kept as equal as practical
+        // When EXTMODE is HIGH, EXTCOMIN rising edge arms polarity inversion to occur on next SCS falling edge
+        gpio_put(pin_extcomin, 1); // Arm COM inversion, once per full frame
+        sleep_us(1); // twEXTCOMIN minimum high time is 1 us
+        gpio_put(pin_extcomin, 0);
+            
         // mode select
         spi_byte = revert_byte(0x01);
         spi_write_blocking(spi, &spi_byte, 1);
@@ -95,9 +100,9 @@ public:
         spi_write_blocking(spi, &spi_byte, 1);
 
         // chip deselect
-        sleep_us(1);
+        sleep_us(1); // thSCS is minimum 1 us
         gpio_put(pin_scs, 0);
-        sleep_us(1);
+        sleep_us(1); // twSCSL is minimum 1 us
 
     }
 
