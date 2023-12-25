@@ -87,7 +87,6 @@ int main() {
 
         // LCD update
         lcd.write(screen.data);
-        lcd.toggle_com();
     }
 }
 
