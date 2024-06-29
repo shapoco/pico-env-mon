@@ -25,6 +25,7 @@
     - LS027B4DH01 (動作確認済)
         - [シャープ モノクロHR-TFTメモリ液晶モジュール (LS027B4DH01)](https://akizukidenshi.com/catalog/g/g104944/) → 2024/06/29 現在売り切れ
         - [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01 — スイッチサイエンス](https://www.switch-science.com/products/1607)
+        - [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01 【スイッチサイエンス取寄品】 / SHARP-LS027B4DH01](https://eleshop.jp/shop/g/gN1BSC7/)
     - LS027B7DH01 :warning: [同シリーズと思われます](https://x.com/pcjpnet/status/1803709680235278717) が互換性不明、動作未確認、あくまで参考です :
         - [LS027B7DH01A Sharp Microelectronics | オプトエレクトロニクス | DigiKey](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067)
         - [LS027B7DH01 Sharp Microelectronics | オプトエレクトロニクス | DigiKey](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01/5054066)
