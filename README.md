@@ -33,7 +33,8 @@
 - [フレキコネクタDIP化キット(AE-CNCONV-10P-0.5)](https://akizukidenshi.com/catalog/g/g107253/)
 - [BME280使用　温湿度・気圧センサモジュールキット (AE-BME280)](https://akizukidenshi.com/catalog/g/g109421/)
 - [CO2センサーモジュール MH-Z19C](https://akizukidenshi.com/catalog/g/g116142/)
-    - :warning: ピンヘッダが付いていますが 2.54mmピッチのユニバーサル基板には適合しません。1.27mmピッチのユニバーサル基板を使用するか、ピンヘッダを使用せずに配線してください。
+    - :warning: ピンヘッダが付いていてそれ自体は 2.54mmピッチですが、2 つのヘッダの間隔が 2.54mmピッチのユニバーサル基板に適合しません。1.27mmピッチのユニバーサル基板を使用するか、ピンヘッダを外してスズメッキ線等で配線してください。
+        ![](img/mh-z19c-dim.png)
 - [タクトスイッチ](https://akizukidenshi.com/catalog/g/g103647/)
     - CO2センサのキャリブレーションに使用します。
 - セラミックコンデンサ
