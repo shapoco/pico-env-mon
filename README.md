@@ -24,7 +24,7 @@
 - LCD
     - LS027B4DH01 (動作確認済)
         - [シャープ モノクロHR-TFTメモリ液晶モジュール (LS027B4DH01)](https://akizukidenshi.com/catalog/g/g104944/) → 2024/06/29 現在売り切れ
-        - [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01 — スイッチサイエンス](https://www.switch-science.com/products/1607)
+        - [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01 — スイッチサイエンス](https://www.switch-science.com/products/1607) → 2024/06/30 現在売り切れ
         - [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01 【スイッチサイエンス取寄品】 / SHARP-LS027B4DH01](https://eleshop.jp/shop/g/gN1BSC7/)
     - LS027B7DH01 :warning: [同シリーズと思われます](https://x.com/pcjpnet/status/1803709680235278717) が互換性不明、動作未確認、あくまで参考です :
         - [LS027B7DH01A Sharp Microelectronics | オプトエレクトロニクス | DigiKey](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067)
@@ -36,9 +36,19 @@
     - :warning: ピンヘッダが付いていますが 2.54mmピッチのユニバーサル基板には適合しません。1.27mmピッチのユニバーサル基板を使用するか、ピンヘッダを使用せずに配線してください。
 - [タクトスイッチ](https://akizukidenshi.com/catalog/g/g103647/)
     - CO2センサのキャリブレーションに使用します。
+- セラミックコンデンサ
+    - 50V 0.1uF ([秋月電子を検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=0.1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B))
+        - 例: [積層セラミックコンデンサー 0.1μF50V X7R 2.54mm](https://akizukidenshi.com/catalog/g/g113582/)
+    - 50V 1uF ([秋月電子を検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B))
+        - 例: [積層セラミックコンデンサー 1μF50V X7R 5mm](https://akizukidenshi.com/catalog/g/g115874/)
+- 電解コンデンサ
+    - LCD に問題が生じた場合は追加します。
+    - 16V 47uF ([秋月電子を検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020102&goods_specification=47%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B))
+        - 例: [電解コンデンサー 47μF16V105℃ ルビコンPX](https://akizukidenshi.com/catalog/g/g110270/)
 - [分割ロングピンソケット 1x42(42P)](https://akizukidenshi.com/catalog/g/g105779/)
 - その他
     - ユニバーサル基板
+        - サンプルとして公開しているケースの STL に適合させるにはカットする必要があります（後述）。
     - 配線類
     - microUSBケーブル (書き込み/電源供給)
 
@@ -62,6 +72,14 @@
 |`GPIO22`|`DISP`||
 
 ![接続図](img/connection.png)
+
+### 接続上の注意
+
+CO2センサー MH-Z19C は内蔵された電球の駆動のために定期的に大きな電流を吸い込みます。これが LCD の動作に影響えないよう、配線の引き回しやコンデンサの配置に注意する必要があります。
+
+- MH-Z19C と LCD の電源ラインは根元から別々に配線してください。
+- MH-Z19C と LCD それぞれの直近にセラミックコンデンサを実装してください。
+- これでも LCD の表示に問題が生じた場合は MH-Z19C の直近に電解コンデンサ 47uF を追加してみてください。
 
 ----
 
@@ -90,6 +108,14 @@
 
 3. Raspberry Pi Pico の `BOOT SEL`ボタンを押しながら USBケーブルを接続し、書き込みモードにします (USBストレージとして認識されます)。
 4. `pico-env-mon/build/pico_env_mon.uf2` を Raspberry Pi Pico に書き込みます。
+
+----
+
+## ケースの STL について
+
+[ケース用の STL のサンプル](stl/) を公開しています。2.54mm ピッチのユニバーサル基板を 24穴 x 17穴 にカットし、以下のようにレイアウトする前提の形状になっています。 基板を搭載する部分の内寸は 66 x 48mm です。
+
+![](img/layout.png)
 
 ----
 
