@@ -37,6 +37,7 @@
 - [タクトスイッチ](https://akizukidenshi.com/catalog/g/g103647/)
     - CO2センサのキャリブレーションに使用します。
 - セラミックコンデンサ
+    - ノイズ対策のバイパスコンデンサ（パスコン）です。
     - 50V 0.1uF ([秋月電子を検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=0.1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B))
         - 例: [積層セラミックコンデンサー 0.1μF50V X7R 2.54mm](https://akizukidenshi.com/catalog/g/g113582/)
     - 50V 1uF ([秋月電子を検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B))
@@ -58,7 +59,7 @@
 
 |Pico|LS027B4DH01|BME280|MH-Z19C|
 |:--|:--|:--|:--|
-|`VBUS`|`VDD`, `VDDA`, `EXTMODE`||`Vin`|
+|`VBUS`|`VDD`, `VDDA`, `EXTMODE`<br>セラミック 1uF||`Vin`<br>セラミック 1uF (+ 電解 47uF)|
 |`3V3`||`VDD`||
 |`GND`|`VSS`, `VSSA`|`GND`|`GND`|
 |`GPIO0` (uart0 TX)|||`RX`|
@@ -69,7 +70,7 @@
 |`GPIO19` (spi0 TX)|`SI`|`SDI`|
 |`GPIO20`|`SCS`||
 |`GPIO21`|`EXTCOMIN`||
-|`GPIO22`|`DISP`||
+|`GPIO22`|`DISP`<br>セラミック 0.1uF||
 
 ![接続図](img/connection.png)
 
