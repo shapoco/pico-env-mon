@@ -29,7 +29,7 @@
     - LS027B7DH01 :warning: [同シリーズと思われます](https://x.com/pcjpnet/status/1803709680235278717) が互換性不明、動作未確認、あくまで参考です :
         - [LS027B7DH01A Sharp Microelectronics | オプトエレクトロニクス | DigiKey](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067)
         - [LS027B7DH01 Sharp Microelectronics | オプトエレクトロニクス | DigiKey](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01/5054066)
-    - :warning: フレキケーブルは乱暴に扱うと壊れやすいので注意してください。
+    - :warning: フレキケーブルは非常に破損しやすいので慎重に扱ってください。
 - [フレキコネクタDIP化キット(AE-CNCONV-10P-0.5)](https://akizukidenshi.com/catalog/g/g107253/)
 - [BME280使用　温湿度・気圧センサモジュールキット (AE-BME280)](https://akizukidenshi.com/catalog/g/g109421/)
 - [CO2センサーモジュール MH-Z19C](https://akizukidenshi.com/catalog/g/g116142/)
