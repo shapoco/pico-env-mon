@@ -23,12 +23,12 @@
 - [Raspberry Pi Pico](https://akizukidenshi.com/catalog/g/g116132/)
 - LCD
     - LS027B4DH01 (動作確認済)
-        - [シャープ モノクロHR-TFTメモリ液晶モジュール (LS027B4DH01)](https://akizukidenshi.com/catalog/g/g104944/) → 2024/06/29 現在売り切れ
-        - [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01 — スイッチサイエンス](https://www.switch-science.com/products/1607) → 2024/06/30 現在売り切れ
-        - [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01 【スイッチサイエンス取寄品】 / SHARP-LS027B4DH01](https://eleshop.jp/shop/g/gN1BSC7/)
+        - 秋月: [シャープ モノクロHR-TFTメモリ液晶モジュール (LS027B4DH01)](https://akizukidenshi.com/catalog/g/g104944/) (2024/06/29 在庫切れ)
+        - スイッチサイエンス: [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01](https://www.switch-science.com/products/1607) (2024/06/30 在庫切れ)
+        - 共立: [モノクロHR-TFTメモリ液晶モジュール LS027B4DH01](https://eleshop.jp/shop/g/gN1BSC7/) (2024/07/01 在庫切れ)
     - LS027B7DH01 :warning: [同シリーズと思われます](https://x.com/pcjpnet/status/1803709680235278717) が互換性不明、動作未確認、あくまで参考です :
-        - [LS027B7DH01A Sharp Microelectronics | オプトエレクトロニクス | DigiKey](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067)
-        - [LS027B7DH01 Sharp Microelectronics | オプトエレクトロニクス | DigiKey](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01/5054066)
+        - DigiKey: [LS027B7DH01A Sharp Microelectronics](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067)
+        - DigiKey: [LS027B7DH01 Sharp Microelectronics](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01/5054066)
     - :warning: フレキケーブルは非常に破損しやすいので慎重に扱ってください。
 - [フレキコネクタDIP化キット(AE-CNCONV-10P-0.5)](https://akizukidenshi.com/catalog/g/g107253/)
 - [BME280使用　温湿度・気圧センサモジュールキット (AE-BME280)](https://akizukidenshi.com/catalog/g/g109421/)
