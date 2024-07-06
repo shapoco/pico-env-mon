@@ -37,7 +37,7 @@
 |ユニバーサル基板 (右のいずれか)|秋月Bタイプ 2.54mm ピッチ|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+2.54mm&search=search) (例: [100181](https://akizukidenshi.com/catalog/g/g100181/))|\*2|
 ||秋月Bタイプ 1.27mm ピッチ|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+1.27mm&search=search) (例: [117829](https://akizukidenshi.com/catalog/g/g117829/))|\*2|
 |配線類|UEW など|秋月: [検索](https://akizukidenshi.com/catalog/c/cwire/) (例: [109583](https://akizukidenshi.com/catalog/g/g109583/))||
-|microUSBケーブル|通信用のもの|||
+|microUSBケーブル|通信用のもの|秋月: [107607/](https://akizukidenshi.com/catalog/g/g107607/)||
 
 > [!NOTE]
 > \*1) LS027B7DH01 と LS027B7DH01A の違い:
