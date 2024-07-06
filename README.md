@@ -34,17 +34,17 @@
 ||セラミック 1uF|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B) (例: [115874](https://akizukidenshi.com/catalog/g/g115874/))||
 |ノイズ対策用追加コンデンサ|電解コンデンサ 47uF|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020102&goods_specification=47%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B) (例: [110270](https://akizukidenshi.com/catalog/g/g110270/))||
 |センサ固定用ピンヘッダ|FHU-1x42SG|秋月: [105779](https://akizukidenshi.com/catalog/g/g105779/)||
-|ユニバーサル基板 (右のいずれか)|秋月Bタイプ 2.54mm ピッチ|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+2.54mm&search=search) (例: [100181](https://akizukidenshi.com/catalog/g/g100181/))|\*2|
-||秋月Bタイプ 1.27mm ピッチ|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+1.27mm&search=search) (例: [117829](https://akizukidenshi.com/catalog/g/g117829/))|\*2|
+|ユニバーサル基板 (右のいずれか)|秋月Bタイプ 2.54mm|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+2.54mm&search=search) (例: [100181](https://akizukidenshi.com/catalog/g/g100181/))|\*2|
+||秋月Bタイプ 1.27mm|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+1.27mm&search=search) (例: [117829](https://akizukidenshi.com/catalog/g/g117829/))|\*2|
 |配線類|UEW など|秋月: [検索](https://akizukidenshi.com/catalog/c/cwire/) (例: [109583](https://akizukidenshi.com/catalog/g/g109583/))||
-|microUSBケーブル|通信用のもの|秋月: [107607/](https://akizukidenshi.com/catalog/g/g107607/)||
+|microUSBケーブル|通信用のもの|秋月: [107607](https://akizukidenshi.com/catalog/g/g107607/)||
 
 > [!NOTE]
 > \*1) LS027B7DH01 と LS027B7DH01A の違い:
 > > フィックスAの付いている部品は、1つのディスプレイにつき最大2ピクセル（ドット抜け）の欠陥を許容しますが、サフィックスAの付いていない部品は1ピクセルの欠陥も許容しません。<br>
 > > [Sharp LS027B7DH01とLS027B7DH01Aの違いについて - 日本語フォーラム / 部品品番 - Electronic Component and Engineering Solution Forum - TechForum │ DigiKey](https://forum.digikey.com/t/sharp-ls027b7dh01-ls027b7dh01a/17466)
 
-> [!WARNING]
+> [!CAUTION]
 > \*2) MH-Z19C にはピンヘッダが付いていてそれ自体は 2.54mmピッチですが、2 つのヘッダの間隔が 2.54mm ピッチのユニバーサル基板に適合しません。1.27mm ピッチのユニバーサル基板を使用するか、ピンヘッダを外してスズメッキ線等で配線してください。
 > ![](img/mh-z19c-dim.png)
 
