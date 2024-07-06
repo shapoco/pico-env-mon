@@ -22,7 +22,7 @@
 
 - [Raspberry Pi Pico](https://akizukidenshi.com/catalog/g/g116132/)
 - LCD
-    - LS027B7DH01, LS027B7DH01A
+    - LS027B7DH01(A)
         - DigiKey: [LS027B7DH01 Sharp Microelectronics](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01/5054066)
         - DigiKey: [LS027B7DH01A Sharp Microelectronics](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067)
         - LS027B7DH01 と LS027B7DH01A の違い:
@@ -62,7 +62,7 @@
 
 ## 接続
 
-|Pico|LS027B4DH01|BME280|MH-Z19C|
+|Pico|LS027B7DH01(A)<br>LS027B4DH01|BME280|MH-Z19C|
 |:--|:--|:--|:--|
 |`VBUS`|`VDD`, `VDDA`, `EXTMODE`<br>セラミック 1uF||`Vin`<br>セラミック 1uF (+ 電解 47uF)|
 |`3V3`||`VDD`||
