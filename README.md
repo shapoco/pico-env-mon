@@ -25,7 +25,7 @@
 |マイコン|Raspberry Pi Pico|秋月: [116132](https://akizukidenshi.com/catalog/g/g116132/)||
 |LCD (右のいずれか)|LS027B7DH01|DigiKey: [425-2907-ND](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01/5054066)|\*1|
 ||LS027B7DH01A|DigiKey: [425-2908-ND](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067)|\*1|
-||LS027B4DH01|秋月(単品): [104944](https://akizukidenshi.com/catalog/g/g104944/) (欠品)<br>秋月(キット): [106875](https://akizukidenshi.com/catalog/g/g106875/)<br>スイッチサイエンス: [1607](https://www.switch-science.com/products/1607) (欠品)<br>共立: [N1BSC7](https://eleshop.jp/shop/g/gN1BSC7/) (欠品)||
+||LS027B4DH01|秋月(単品): [104944](https://akizukidenshi.com/catalog/g/g104944/) (売切)<br>秋月(キット): [106875](https://akizukidenshi.com/catalog/g/g106875/)<br>スイッチサイエンス: [1607](https://www.switch-science.com/products/1607) (売切)<br>共立: [N1BSC7](https://eleshop.jp/shop/g/gN1BSC7/) (売切)||
 |LCD 用コネクタ変換基板|AE-CNCONV-10P-0.5|秋月: [107253](https://akizukidenshi.com/catalog/g/g107253/)||
 |温湿度・気圧センサ|AE-BME280|秋月: [109421](https://akizukidenshi.com/catalog/g/g109421/)||
 |CO2 センサ|MH-Z19C|秋月: [116142](https://akizukidenshi.com/catalog/g/g116142/)|\*2|
