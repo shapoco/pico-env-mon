@@ -20,25 +20,166 @@
 
 ## 使用部品
 
-|項目|型番・仕様|購入先 (例)|備考|
-|:--|:--|:--|:--:|
-|マイコン|Raspberry Pi Pico|秋月: [116132](https://akizukidenshi.com/catalog/g/g116132/)||
-|LCD (右のいずれか)|LS027B7DH01|DigiKey: [425-2907-ND](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01/5054066)|\*1|
-||LS027B7DH01A|DigiKey: [425-2908-ND](https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067)|\*1|
-||LS027B4DH01|秋月(単品): [104944](https://akizukidenshi.com/catalog/g/g104944/) (売切)<br>秋月(キット): [106875](https://akizukidenshi.com/catalog/g/g106875/)<br>スイッチサイエンス: [1607](https://www.switch-science.com/products/1607) (売切)<br>共立: [N1BSC7](https://eleshop.jp/shop/g/gN1BSC7/) (売切)||
-|LCD 用コネクタ変換基板|AE-CNCONV-10P-0.5|秋月: [107253](https://akizukidenshi.com/catalog/g/g107253/)||
-|温湿度・気圧センサ|AE-BME280|秋月: [109421](https://akizukidenshi.com/catalog/g/g109421/)||
-|CO2 センサ|MH-Z19C|秋月: [116142](https://akizukidenshi.com/catalog/g/g116142/)|\*2|
-|Zero Point Calibration スイッチ|適当なタクトスイッチ|秋月: [検索](https://akizukidenshi.com/catalog/c/cpushsw/) (例: [103647](https://akizukidenshi.com/catalog/g/g103647/))||
-|バイパスコンデンサ|セラミック 0.1uF|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=0.1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B) (例: [113582](https://akizukidenshi.com/catalog/g/g113582/))||
-||セラミック 1uF|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B) (例: [115874](https://akizukidenshi.com/catalog/g/g115874/))||
-|ノイズ対策用追加コンデンサ|電解コンデンサ 47uF|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020102&goods_specification=47%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B) (例: [110270](https://akizukidenshi.com/catalog/g/g110270/))||
-|センサ固定用ピンヘッダ|FHU-1x42SG|秋月: [105779](https://akizukidenshi.com/catalog/g/g105779/)||
-|ユニバーサル基板 (右のいずれか)|秋月Bタイプ 2.54mm|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+2.54mm&search=search) (例: [100181](https://akizukidenshi.com/catalog/g/g100181/))|\*2|
-||秋月Bタイプ 1.27mm|秋月: [検索](https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+1.27mm&search=search) (例: [117829](https://akizukidenshi.com/catalog/g/g117829/))|\*2|
-|配線類|UEW など|秋月: [検索](https://akizukidenshi.com/catalog/c/cwire/) (例: [109583](https://akizukidenshi.com/catalog/g/g109583/))||
-|USB電源|5V|秋月: [113658](https://akizukidenshi.com/catalog/g/g113658/)|\*3|
-|microUSBケーブル|通信用のもの|秋月: [107607](https://akizukidenshi.com/catalog/g/g107607/)||
+- ⛔ : 2024/11/10 現在売り切れ
+- ❓ : 使用実績なし、動作未確認。購入前によくご確認ください
+
+<table>
+  <tr>
+    <th>項目</th>
+    <th>型番・仕様</th>
+    <th>購入先 (例)</th>
+    <th>備考</th>
+  </tr>
+  <tr>
+    <td>マイコン</td>
+    <td>Raspberry Pi Pico<br>(RP2040)</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/g/g116132/" target="_blank">116132</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="3">LCD<br>(右のいずれか)</td>
+    <td>LS027B7DH01</td>
+    <td>
+      DigiKey: <a href="https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01/5054066" target="_blank">425-2907-ND</a>
+    </td>
+    <td rowspan="2">*1</td>
+  </tr>
+  <tr>
+    <td>LS027B7DH01A</td>
+    <td>
+      DigiKey: <a href="https://www.digikey.jp/ja/products/detail/sharp-microelectronics/LS027B7DH01A/5054067" target="blank">425-2908-ND</a>
+    </td>
+  </tr>
+  <tr>
+    <td>LS027B4DH01</td>
+    <td>
+      秋月(単品): <a href="https://akizukidenshi.com/catalog/g/g104944/" target="blank">104944</a>⛔<br>
+      秋月(キット): <a href="https://akizukidenshi.com/catalog/g/g106875/" target="blank">106875</a><br>
+      スイッチサイエンス: <a href="https://www.switch-science.com/products/1607" target="blank">1607</a>⛔<br>
+      共立: <a href="https://eleshop.jp/shop/g/gN1BSC7/" target="blank">N1BSC7</a>⛔
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="2">LCD 用コネクタ<br>ブレイクアウトボード<br>(右のいずれか)</td>
+    <td>AE-CNCONV-10P-0.5</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/g/g107253/" target="blank">107253</a>⛔
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>EPA0139</td>
+    <td>
+      楽天: <a href="https://item.rakuten.co.jp/techspace/201808epa0139/" target="blank">201808epa0139</a>❓<br>
+      Amazon: <a href="https://www.amazon.co.jp/dp/B07H2FTQJM" target="blank">B07H2FTQJM</a>❓<br>
+      Aliexpress <a href="https://ja.aliexpress.com/w/wholesale-epa0139.html" target="blank">検索</a>❓
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>温湿度・気圧センサ</td>
+    <td>AE-BME280</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/g/g109421/" target="blank">109421</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>CO2 センサ</td>
+    <td>MH-Z19C</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/g/g116142/" target="blank">116142</a>
+    </td>
+    <td>*2</td>
+  </tr>
+  <tr>
+    <td>ゼロ点補正スイッチ</td>
+    <td>適当なタクトスイッチ</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/c/cpushsw/" target="blank">検索</a>
+      (例: <a href="https://akizukidenshi.com/catalog/g/g103647/" target="blank">103647</a>)
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="2">バイパスコンデンサ</td>
+    <td>セラミック 0.1uF</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=0.1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B" target="blank">検索</a>
+      (例: <a href="https://akizukidenshi.com/catalog/g/g113582/" target="blank">113582</a>)
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>セラミック 1uF</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020101&goods_specification=1%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B" target="blank">検索</a>
+      (例: <a href="https://akizukidenshi.com/catalog/g/g115874/" target="blank">115874</a>)
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>ノイズ対策用<br>追加コンデンサ</td>
+    <td>電解コンデンサ 47uF</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/goods/search.aspx?ct=02020102&goods_specification=47%CE%BCF&search=%E6%A4%9C%E7%B4%A2%E3%81%99%E3%82%8B" target="blank">検索</a>
+      (例: <a href="https://akizukidenshi.com/catalog/g/g110270/" target="blank">110270</a>)
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>センサ固定用<br>ピンヘッダ</td>
+    <td>FHU-1x42SG</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/g/g105779/" target="blank">105779</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="2">ユニバーサル基板<br>(右のいずれか)</td>
+    <td>秋月Bタイプ 2.54mm</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+2.54mm&search=search" target="blank">検索</a>
+      (例: <a href="https://akizukidenshi.com/catalog/g/g100181/" target="blank">100181</a>)
+    </td>
+    <td rowspan="2">*2, *3</td>
+  </tr>
+  <tr>
+    <td>秋月Bタイプ 1.27mm</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/goods/search.aspx?search=x&keyword=%E3%83%A6%E3%83%8B%E3%83%90%E3%83%BC%E3%82%B5%E3%83%AB%E5%9F%BA%E6%9D%BF+B%E3%82%BF%E3%82%A4%E3%83%97+1.27mm&search=search" target="blank">検索</a>
+      (例: <a href="https://akizukidenshi.com/catalog/g/g117829/" target="blank">117829</a>)
+    </td>
+  </tr>
+  <tr>
+    <td>配線類</td>
+    <td>UEW など</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/c/cwire/" target="blank">検索</a>
+      (例: <a href="https://akizukidenshi.com/catalog/g/g109583/" target="blank">109583</a>)
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>USB電源</td>
+    <td>5V</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/g/g113658/" target="_blank">113658</a>
+    </td>
+    <td>*4</td>
+  </tr>
+  <tr>
+    <td>microUSBケーブル</td>
+    <td>通信用のもの</td>
+    <td>
+      秋月: <a href="https://akizukidenshi.com/catalog/g/g107607/" target="_blank">107607</a>
+    </td>
+    <td></td>
+  </tr>
+</table>
 
 \*1) LS027B7DH01 と LS027B7DH01A の違い:
 
@@ -49,7 +190,9 @@
 
 ![](img/mh-z19c-dim.png)
 
-\*3) :warning: 市販の一般的な USB-AC アダプタでかまいませんが、電圧が低いものや不安定なものだと LCD の動作が不安定になることがあります。
+\*3) :warning: ケース用の STL データを使用する場合は適切な大きさにカットする必要があります (後述)。
+
+\*4) :warning: 市販の一般的な USB-AC アダプタでかまいませんが、電圧が低いものや不安定なものだと LCD の動作が不安定になることがあります。
 
 ----
 
@@ -153,7 +296,7 @@ MH-Z19C は初期状態では正しい値を示さないケースがあるよう
 参考: [Home Assistant: ESP32+MH-Z19CでCO2モニター構築(2) [キャリブレーション編] - Sympapaのスマートホーム日記](https://sympapa.hatenablog.com/entry/2022/06/05/091621)
 
 1. 本機を屋外や誰もいない風通しの良い場所に 20分間放置します。
-2. 吐息がかからないように息を止めて、Zero Point Calibrationスイッチを 7秒間押下します。
+2. 吐息がかからないように息を止めて、ゼロ点補正 (Zero Point Calibration) スイッチを 7秒間押下します。
 
 なお、本プロジェクトではオートキャリブレーションは無効化されています。
 
