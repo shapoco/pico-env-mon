@@ -24,10 +24,13 @@ public:
 
     float min_log[DEPTH];
     float max_log[DEPTH];
+    float latest_value = 0;
     int num_data = 0;
 
     float total_min = 0;
     float total_max = 0;
+    int total_min_idx = -1;
+    int total_max_idx = -1;
 
     float horizontal_line_step = 1;
 
@@ -36,6 +39,8 @@ public:
     { }
 
     void push(float value, bool shift) {
+        latest_value = value;
+
         if (num_data == 0) {
             num_data = 1;
             min_log[0] = value;
@@ -60,16 +65,25 @@ public:
         if (num_data == 0) {
             total_min = 0;
             total_max = 0;
+            total_min_idx = -1;
+            total_max_idx = -1;
         }
         else {
             total_min = min_log[0];
             total_max = max_log[0];
+            total_min_idx = 0;
+            total_max_idx = 0;
             for (int i = 1; i < num_data; i++) {
-                if (min_log[i] < total_min) total_min =  min_log[i];
-                if (max_log[i] > total_max) total_max =  max_log[i];
+                if (min_log[i] < total_min) {
+                    total_min = min_log[i];
+                    total_min_idx = i;
+                }
+                if (max_log[i] > total_max) {
+                    total_max = max_log[i];
+                    total_max_idx = i;
+                }
             }
         }
-        
     }
 
     void render(Msb1stImage &dest) {
@@ -121,6 +135,30 @@ public:
         // draw vertical lines
         for (int x_line = left + WIDTH - 1; x_line > left; x_line -= VERTICAL_LINE_STEP) {
             dest.draw_vertical_dotted_line(x_line, top, HEIGHT);
+        }
+
+        // Min marker
+        if (total_min_idx >= 0) {
+            int x = left + WIDTH - total_min_idx - img_marker_down.width / 2;
+            int y = (y_offset - min_log[total_min_idx] * y_zoom) - img_marker_down_mask.height;
+            dest.draw_image(img_marker_down_mask, x - 1, y - 1, PixelOp::OR);
+            dest.draw_image(img_marker_down, x, y, PixelOp::AND);
+        }
+
+        // Max marker
+        if (total_max_idx >= 0) {
+            int x = left + WIDTH - total_max_idx - img_marker_up.width / 2;
+            int y = (y_offset - max_log[total_max_idx] * y_zoom);
+            dest.draw_image(img_marker_up_mask, x - 1, y - 1, PixelOp::OR);
+            dest.draw_image(img_marker_up, x, y, PixelOp::AND);
+        }
+
+        // Latest value marker        
+        if (num_data > 0) {
+            int x = left + WIDTH;
+            int y = y_offset - latest_value * y_zoom - img_marker_left.height / 2;
+            dest.draw_image(img_marker_left_mask, x - 1, y - 1, PixelOp::OR);
+            dest.draw_image(img_marker_left, x, y, PixelOp::AND);
         }
     }
 };

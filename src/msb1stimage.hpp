@@ -3,6 +3,12 @@
 
 #include "stdint.h"
 
+enum class PixelOp {
+    OVERWRITE,
+    OR,
+    AND,
+};
+
 class Msb1stImage {
 public:
     const int width;
@@ -44,7 +50,10 @@ public:
         clip_copy_rect(dw, dh, dw, dh, &sl, &st, dl, dt, w, h);
     }
 
-    void set_pixel(int x, int y, uint8_t color) {
+    void set_pixel(int x, int y, uint8_t color, PixelOp op = PixelOp::OVERWRITE) {
+        if (op == PixelOp::AND && color != 0) return;
+        if (op == PixelOp::OR && color == 0) return;
+
         if (x < 0 || x >= width || y < 0 || y >= height) return;
 
         int i = y * stride + (x / 8);
@@ -73,26 +82,33 @@ public:
         data[i] ^= mask;
     }
 
-    void fill_rect(int x0, int y0, int w, int h, uint8_t color) {
+    void fill_rect(int x0, int y0, int w, int h, uint8_t color, PixelOp op = PixelOp::OVERWRITE) {
         clip_fill_rect(width, height, &x0, &y0, &w, &h);
         int x1 = x0 + w;
         int y1 = y0 + h;
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
-                set_pixel(x, y, color);
+                set_pixel(x, y, color, op);
             }
         }
     }
 
-    void fill_rect_with_pattern(int x0, int y0, int w, int h) {
+    void fill_rect_with_pattern(int x0, int y0, int w, int h, PixelOp op = PixelOp::OVERWRITE) {
         clip_fill_rect(width, height, &x0, &y0, &w, &h);
         int x1 = x0 + w;
         int y1 = y0 + h;
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
-                set_pixel(x, y, (x + y) & 1);
+                set_pixel(x, y, (x + y) & 1, op);
             }
         }
+    }
+
+    void draw_rect(int x0, int y0, int w, int h, uint8_t color, PixelOp op = PixelOp::OVERWRITE) {
+        fill_rect(x0, y0, w + 1, 1, color, op);
+        fill_rect(x0, y0 + 1, 1, h - 1, color, op);
+        fill_rect(x0 + w, y0 + 1, 1, h - 1, color, op);
+        fill_rect(x0, y0 + h, w + 1, 1, color, op);
     }
 
     void draw_horizontal_dotted_line(int x0, int y0, int w) {
@@ -122,7 +138,7 @@ public:
         }
     }
 
-    void draw_image(Msb1stImage &src, int dx0, int dy0, int w, int h, int sx0, int sy0) {
+    void draw_image(Msb1stImage &src, int dx0, int dy0, int w, int h, int sx0, int sy0, PixelOp op = PixelOp::OVERWRITE) {
         clip_copy_rect(src.width, src.height, width, height, &sx0, &sy0, &dx0, &dy0, &w, &h);
         int sx1 = sx0 + w;
         int sy1 = sy0 + h;
@@ -131,15 +147,15 @@ public:
         for (int sy = sy0; sy < sy1; sy++) {
             int dx = dx0;
             for (int sx = sx0; sx < sx1; sx++) {
-                set_pixel(dx, dy, src.get_pixel(sx, sy));
+                set_pixel(dx, dy, src.get_pixel(sx, sy), op);
                 dx += 1;
             }
             dy += 1;
         }
     }
 
-    void draw_image(Msb1stImage &src, int dx, int dy) {
-        draw_image(src, dx, dy, src.width, src.height, 0, 0);
+    void draw_image(Msb1stImage &src, int dx, int dy, PixelOp op = PixelOp::OVERWRITE) {
+        draw_image(src, dx, dy, src.width, src.height, 0, 0, op);
     }
     
 };

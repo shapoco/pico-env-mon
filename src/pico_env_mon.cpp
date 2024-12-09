@@ -1,8 +1,3 @@
-//#define PICO_DEFAULT_SPI 0
-//#define PICO_DEFAULT_SPI_TX_PIN 19
-//#define PICO_DEFAULT_SPI_RX_PIN 20
-//#define PICO_DEFAULT_SPI_SCK_PIN 18
-
 #include <stdio.h>
 
 #include "pico/stdlib.h"
@@ -20,11 +15,17 @@
 
 #include "mhz19c.hpp"
 
+static const int FIRM_VER_MAJOR = 0;
+static const int FIRM_VER_MINOR = 4;
+
+static const int LOGO_DISPLAY_TIME_MS = 5000;
+
 static const int LCD_TOGGLE_INTERVAL_MS = 500;
 
 static const int SAMPLING_INTERVAL_MS = 5000;
 
-static const int GRAPH_TIME_RANGE_H = 24;
+//static const int GRAPH_TIME_RANGE_H = 24;
+static const int GRAPH_TIME_RANGE_H = 1;
 static const int GRAPH_SHIFT_INTERVAL_MS = GRAPH_TIME_RANGE_H * 3600 * 1000 / Graph::DEPTH;
 
 // 温度は湿度・気圧の補正用であり気温よりやや高いため適当に補正する
@@ -43,6 +44,7 @@ Graph graph_p(0, 120, 1.0f); // pressure
 Graph graph_c(0, 180, 10.0f); // CO2
 
 static void sample(bool shift);
+static void draw_logo();
 
 int main() {
     stdio_init_all();
@@ -59,6 +61,7 @@ int main() {
     lcd.write(screen.data);
     lcd.disp_on();
 
+    absolute_time_t t_logo_expire = make_timeout_time_ms(LOGO_DISPLAY_TIME_MS);
     absolute_time_t t_next_lcd_toggle = make_timeout_time_ms(LCD_TOGGLE_INTERVAL_MS);
     int sampling_interval_counter = SAMPLING_INTERVAL_MS;
     int graph_shift_interval_counter = 0;
@@ -66,6 +69,7 @@ int main() {
     while (true) {
         // keep interval
         sleep_until(t_next_lcd_toggle);
+        absolute_time_t t_now = get_absolute_time();
         t_next_lcd_toggle = delayed_by_ms(t_next_lcd_toggle, LCD_TOGGLE_INTERVAL_MS);
         
         sampling_interval_counter += LCD_TOGGLE_INTERVAL_MS;
@@ -83,6 +87,10 @@ int main() {
             }
 
             sample(shift);
+
+            if (absolute_time_diff_us(t_logo_expire, t_now) < 0) {
+                draw_logo();
+            }
         }
 
         // LCD update
@@ -106,7 +114,7 @@ static void sample(bool shift) {
     graph_p.push(pressure, shift);
     graph_c.push(co2, shift);
     
-    int x_value = 245;
+    int x_value = 250;
     char s[8];
 
     absolute_time_t t_start = get_absolute_time();
@@ -128,7 +136,7 @@ static void sample(bool shift) {
 
         // scale, min/max
         screen.draw_image(img_step, x_value, y + 40);
-        sprintf(s, "%-.1f %-.1f/%-.1f", graph_t.horizontal_line_step, graph_t.total_min, graph_t.total_max);
+        sprintf(s, "%-.1f %-.1f/%-.1f", graph_t.horizontal_line_step, graph_t.total_max, graph_t.total_min);
         digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
 
         // horizontal line
@@ -149,8 +157,8 @@ static void sample(bool shift) {
         screen.draw_image(img_percent, x_unit, y + 16);
 
         // scale, min/max
-        screen.draw_image(img_step, x_value, y + 40);
-        sprintf(s, "%-.1f %-.1f/%-.1f", graph_h.horizontal_line_step, graph_h.total_min, graph_h.total_max);
+        screen.draw_image(img_step, x_value - 1, y + 40);
+        sprintf(s, "%-.1f %-.1f/%-.1f", graph_h.horizontal_line_step, graph_h.total_max, graph_h.total_min);
         digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
 
         // horizontal line
@@ -171,8 +179,8 @@ static void sample(bool shift) {
         screen.draw_image(img_hpa, x_unit, y + 16);
 
         // scale, min/max
-        screen.draw_image(img_step, x_value, y + 40);
-        sprintf(s, "%-.1f %-.0f/%-.0f", graph_p.horizontal_line_step, graph_p.total_min, graph_p.total_max);
+        screen.draw_image(img_step, x_value - 1, y + 40);
+        sprintf(s, "%-.1f %-.0f/%-.0f", graph_p.horizontal_line_step, graph_p.total_max, graph_p.total_min);
         digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
 
         // horizontal line
@@ -193,7 +201,7 @@ static void sample(bool shift) {
         screen.draw_image(img_ppm, x_unit, y + 16);
 
         // scale, min/max
-        screen.draw_image(img_step, x_value, y + 40);
+        screen.draw_image(img_step, x_value - 1, y + 40);
         sprintf(s, "%-.0f %-.0f/%-.0f", graph_c.horizontal_line_step, graph_c.total_min, graph_c.total_max);
         digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
     }
@@ -204,4 +212,21 @@ static void sample(bool shift) {
     //int64_t t_elapsed_us = absolute_time_diff_us(t_start, t_end);
     //sprintf(s, "%ld", t_elapsed_us);
     //digit16_draw_string(screen, 0, 0, s);
+}
+
+static void draw_logo() {
+    static constexpr int PADDING = 10;
+    int w = img_logo.width + PADDING * 2;
+    int h = img_logo.height + img_digit16.height + PADDING * 3;
+    int x0 = (SCREEN_WIDTH - w) / 2;
+    int y0 = (SCREEN_HEIGHT - h) / 2;
+    
+    screen.fill_rect(x0 - 1, y0 - 1, w + 2, h + 2, 1);
+    screen.draw_rect(x0, y0, w - 1, h - 1, 0);
+    
+    screen.draw_image(img_logo, x0 + PADDING, y0 + PADDING);
+
+    char s[8];
+    sprintf(s, "v%d.%d", FIRM_VER_MAJOR, FIRM_VER_MINOR);
+    digit16_draw_string(screen, x0 + (w - 15) / 2, y0 + PADDING * 2 + img_logo.height, s);
 }
