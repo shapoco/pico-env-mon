@@ -20,7 +20,7 @@
 
 ## 使用部品
 
-- ⛔ : 2024/11/10 現在売り切れ
+- ⛔ : 2024/12/09 現在 在庫なし
 - ❓ : 使用実績なし、動作未確認。購入前によくご確認ください
 
 <table>
@@ -66,7 +66,7 @@
     <td rowspan="2">LCD 用コネクタ<br>ブレイクアウトボード<br>(右のいずれか)</td>
     <td>AE-CNCONV-10P-0.5</td>
     <td>
-      秋月: <a href="https://akizukidenshi.com/catalog/g/g107253/" target="blank">107253</a>⛔
+      秋月: <a href="https://akizukidenshi.com/catalog/g/g107253/" target="blank">107253</a>
     </td>
     <td></td>
   </tr>
