@@ -16,6 +16,7 @@ add_executable(pico_env_mon)
 target_sources(
     pico_env_mon PRIVATE 
     src/pico_env_mon.cpp 
+    src/CO2Sensor.cpp
     src/digit16.cpp 
     src/digit32.cpp 
     src/images.cpp
