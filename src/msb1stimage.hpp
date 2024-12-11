@@ -5,6 +5,7 @@
 
 enum class PixelOp {
     OVERWRITE,
+    NOP,
     OR,
     AND,
 };

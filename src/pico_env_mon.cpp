@@ -24,8 +24,8 @@ static const int LCD_TOGGLE_INTERVAL_MS = 500;
 
 static const int SAMPLING_INTERVAL_MS = 5000;
 
-//static const int GRAPH_TIME_RANGE_H = 24;
-static const int GRAPH_TIME_RANGE_H = 1;
+static const int GRAPH_TIME_RANGE_H = 24;
+//static const int GRAPH_TIME_RANGE_H = 1;
 static const int GRAPH_SHIFT_INTERVAL_MS = GRAPH_TIME_RANGE_H * 3600 * 1000 / Graph::DEPTH;
 
 // 温度は湿度・気圧の補正用であり気温よりやや高いため適当に補正する
@@ -202,7 +202,7 @@ static void sample(bool shift) {
 
         // scale, min/max
         screen.draw_image(img_step, x_value - 1, y + 40);
-        sprintf(s, "%-.0f %-.0f/%-.0f", graph_c.horizontal_line_step, graph_c.total_min, graph_c.total_max);
+        sprintf(s, "%-.0f %-.0f/%-.0f", graph_c.horizontal_line_step, graph_c.total_max, graph_c.total_min);
         digit16_draw_string(screen, x_value + img_step.width + 2, y + 40, s);
     }
 
@@ -217,7 +217,7 @@ static void sample(bool shift) {
 static void draw_logo() {
     static constexpr int PADDING = 10;
     int w = img_logo.width + PADDING * 2;
-    int h = img_logo.height + img_digit16.height + PADDING * 3;
+    int h = img_logo.height + img_digit16.height + PADDING * 2 + PADDING / 2;
     int x0 = (SCREEN_WIDTH - w) / 2;
     int y0 = (SCREEN_HEIGHT - h) / 2;
     
@@ -228,5 +228,6 @@ static void draw_logo() {
 
     char s[8];
     sprintf(s, "v%d.%d", FIRM_VER_MAJOR, FIRM_VER_MINOR);
-    digit16_draw_string(screen, x0 + (w - 15) / 2, y0 + PADDING * 2 + img_logo.height, s);
+    int sw = digit16_measure_width(s) - DIGIT16_GAP;
+    digit16_draw_string(screen, x0 + (w - sw) / 2, y0 + PADDING * 3 / 2 + img_logo.height, s);
 }

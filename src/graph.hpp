@@ -100,7 +100,7 @@ public:
             int y_top = y_offset - max_log[i] * y_zoom;
             int y_bottom = y_offset - min_log[i] * y_zoom;
 
-            dest.fill_rect(x_plot, y_top - 1, 1, y_bottom - y_top + 2, 0);
+            dest.fill_rect(x_plot, y_top, 1, y_bottom - y_top + 2, 0);
             dest.fill_rect_with_pattern(
                 x_plot, y_bottom, 1, top + HEIGHT - y_bottom);
 
@@ -147,10 +147,10 @@ public:
 
         // Max marker
         if (total_max_idx >= 0) {
-            int x = left + WIDTH - total_max_idx - img_marker_up.width / 2;
+            int x = left + WIDTH - total_max_idx - img_marker_up_mask.width / 2;
             int y = (y_offset - max_log[total_max_idx] * y_zoom);
-            dest.draw_image(img_marker_up_mask, x - 1, y - 1, PixelOp::OR);
-            dest.draw_image(img_marker_up, x, y, PixelOp::AND);
+            dest.draw_image(img_marker_up_mask, x, y, PixelOp::AND);
+            dest.draw_image(img_marker_up, x + 1, y + 1, PixelOp::OR);
         }
 
         // Latest value marker        
