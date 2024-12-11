@@ -13,7 +13,7 @@
 
 #include "bme280.hpp"
 
-#include "mhz19c.hpp"
+#include "CO2Sensor.hpp"
 
 static const int FIRM_VER_MAJOR = 0;
 static const int FIRM_VER_MINOR = 4;
@@ -36,7 +36,7 @@ LcdScreen screen;
 LcdDriver lcd(spi_default, 20, 22, 21);
 
 BME280 bme280(spi_default, 17);
-MHZ19C mhz19c(uart0, 0, 1);
+CO2Sensor co2_sensor(uart0, 0, 1, 9600);
 
 Graph graph_t(0, 0, 1.0f); // temperature
 Graph graph_h(0, 60, 10.0f); // humidity
@@ -54,14 +54,19 @@ int main() {
     gpio_set_function(PICO_DEFAULT_SPI_SCK_PIN, GPIO_FUNC_SPI);
     gpio_set_function(PICO_DEFAULT_SPI_TX_PIN, GPIO_FUNC_SPI);
 
+    // Reset LCD and show boot logo before waiting or hanging for sensors to initialise
     lcd.init();
-    bme280.init();
-    mhz19c.init();
     screen.clear(1);
+    draw_logo();
     lcd.write(screen.data);
     lcd.disp_on();
-
     absolute_time_t t_logo_expire = make_timeout_time_ms(LOGO_DISPLAY_TIME_MS);
+
+    bme280.init();
+
+    co2_sensor.init();
+    co2_sensor.ABC(false);
+
     absolute_time_t t_next_lcd_toggle = make_timeout_time_ms(LCD_TOGGLE_INTERVAL_MS);
     int sampling_interval_counter = SAMPLING_INTERVAL_MS;
     int graph_shift_interval_counter = 0;
@@ -105,8 +110,8 @@ static void sample(bool shift) {
     temperature += TEMPERATURE_OFFSET;
 
     // read CO2
-    int co2;
-    mhz19c.measure(&co2);
+    int co2 = -1;
+    co2_sensor.getCO2Reading(&co2);
 
     // enter new value to the graphs
     graph_t.push(temperature, shift);
