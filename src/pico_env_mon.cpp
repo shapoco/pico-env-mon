@@ -20,8 +20,6 @@ static const int FIRM_VER_MINOR = 4;
 
 static const int LOGO_DISPLAY_TIME_MS = 5000;
 
-static const int LCD_TOGGLE_INTERVAL_MS = 500;
-
 static const int SAMPLING_INTERVAL_MS = 5000;
 
 static const int GRAPH_TIME_RANGE_H = 24;
@@ -32,8 +30,8 @@ static const int GRAPH_SHIFT_INTERVAL_MS = GRAPH_TIME_RANGE_H * 3600 * 1000 / Gr
 // 補正値の適正値はセンサの使用条件により異なる
 static const float TEMPERATURE_OFFSET = -1.5f;
 
-LcdScreen screen;
-LcdDriver lcd(spi_default, 20, 22, 21);
+ls027b4dh01::Screen screen;
+ls027b4dh01::Driver lcd(spi_default, 20, 22, 21);
 
 BME280 bme280(spi_default, 17);
 MHZ19C mhz19c(uart0, 0, 1);
@@ -58,43 +56,37 @@ int main() {
     bme280.init();
     mhz19c.init();
     screen.clear(1);
-    lcd.write(screen.data);
+    lcd.write(screen);
     lcd.disp_on();
 
-    absolute_time_t t_logo_expire = make_timeout_time_ms(LOGO_DISPLAY_TIME_MS);
-    absolute_time_t t_next_lcd_toggle = make_timeout_time_ms(LCD_TOGGLE_INTERVAL_MS);
-    int sampling_interval_counter = SAMPLING_INTERVAL_MS;
-    int graph_shift_interval_counter = 0;
+    uint64_t t_now = time_us_64();
+    uint64_t t_next_sample = t_now;
+    uint64_t t_next_shift = t_now;
+    uint64_t t_logo_expire = t_now + LOGO_DISPLAY_TIME_MS * 1000;
 
     while (true) {
-        // keep interval
-        sleep_until(t_next_lcd_toggle);
-        absolute_time_t t_now = get_absolute_time();
-        t_next_lcd_toggle = delayed_by_ms(t_next_lcd_toggle, LCD_TOGGLE_INTERVAL_MS);
+        t_now = time_us_64();
         
-        sampling_interval_counter += LCD_TOGGLE_INTERVAL_MS;
-        graph_shift_interval_counter += LCD_TOGGLE_INTERVAL_MS;
-
         // sampling timing
-        if (sampling_interval_counter > SAMPLING_INTERVAL_MS) {
-            sampling_interval_counter -= SAMPLING_INTERVAL_MS;
+        if (t_now >= t_next_sample) {
+            t_next_sample += SAMPLING_INTERVAL_MS * 1000;
 
             // graph shift timing
-            bool shift = false;
-            if (graph_shift_interval_counter > GRAPH_SHIFT_INTERVAL_MS) {
-                graph_shift_interval_counter -= GRAPH_SHIFT_INTERVAL_MS;
-                shift = true;
+            bool shift = t_now >= t_next_shift;
+            if (shift) {
+                t_next_shift += GRAPH_SHIFT_INTERVAL_MS * 1000;
             }
 
             sample(shift);
 
-            if (absolute_time_diff_us(t_logo_expire, t_now) < 0) {
+            if (t_now < t_logo_expire) {
                 draw_logo();
             }
         }
 
         // LCD update
-        lcd.write(screen.data);
+        lcd.write(screen);
+        lcd.service();
     }
 }
 
@@ -112,7 +104,7 @@ static void sample(bool shift) {
     graph_t.push(temperature, shift);
     graph_h.push(humidity, shift);
     graph_p.push(pressure, shift);
-    graph_c.push(co2, shift);
+    graph_c.push((float)co2, shift);
     
     int x_value = 250;
     char s[8];
@@ -218,8 +210,8 @@ static void draw_logo() {
     static constexpr int PADDING = 10;
     int w = img_logo.width + PADDING * 2;
     int h = img_logo.height + img_digit16.height + PADDING * 2 + PADDING / 2;
-    int x0 = (SCREEN_WIDTH - w) / 2;
-    int y0 = (SCREEN_HEIGHT - h) / 2;
+    int x0 = (ls027b4dh01::SCREEN_WIDTH - w) / 2;
+    int y0 = (ls027b4dh01::SCREEN_HEIGHT - h) / 2;
     
     screen.fill_rect(x0 - 1, y0 - 1, w + 2, h + 2, 1);
     screen.draw_rect(x0, y0, w - 1, h - 1, 0);

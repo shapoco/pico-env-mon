@@ -22,4 +22,8 @@ target_sources(
 )
 
 target_link_libraries(pico_env_mon PRIVATE pico_stdlib hardware_spi)
+
+pico_enable_stdio_usb(pico_env_mon 1)
+pico_enable_stdio_uart(pico_env_mon 0)
+
 pico_add_extra_outputs(pico_env_mon)
