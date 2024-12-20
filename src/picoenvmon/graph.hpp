@@ -1,11 +1,14 @@
-#ifndef GRAPH_HPP
-#define GRAPH_HPP
+#pragma once
 
 #include "stdint.h"
 #include "math.h"
 
 #include "picoenvmon/ls027b4/msb1stimage.hpp"
 #include "picoenvmon/ls027b4/images.hpp"
+
+namespace shapoco::picoenvmon {
+
+using namespace ls027b4; // todo: delete
 
 class Graph {
 public:
@@ -165,4 +168,4 @@ public:
     }
 };
 
-#endif
+}

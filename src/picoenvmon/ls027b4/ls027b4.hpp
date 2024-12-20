@@ -1,5 +1,4 @@
-#ifndef LS027B4DH01_HPP
-#define LS027B4DH01_HPP
+#pragma once
 
 #include "stdint.h"
 #include "string.h"
@@ -9,7 +8,7 @@
 
 #include "picoenvmon/ls027b4/msb1stimage.hpp"
 
-namespace ls027b4dh01 {
+namespace shapoco::picoenvmon::ls027b4 {
 
 static constexpr int SCREEN_WIDTH = 400;
 static constexpr int SCREEN_HEIGHT = 240;
@@ -184,5 +183,3 @@ public:
 };
 
 }
-
-#endif

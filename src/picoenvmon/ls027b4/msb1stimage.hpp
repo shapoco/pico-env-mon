@@ -1,7 +1,8 @@
-#ifndef MSB1STIMAGE_HPP
-#define MSB1STIMAGE_HPP
+#pragma once
 
 #include "stdint.h"
+
+namespace shapoco::picoenvmon::ls027b4 {
 
 enum class PixelOp {
     OVERWRITE,
@@ -161,4 +162,4 @@ public:
     
 };
 
-#endif
+}

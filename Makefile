@@ -30,21 +30,23 @@ all: $(BIN)
 bmp: $(IMAGES_CPP)
 
 $(IMAGES_CPP): $(wildcard $(BMP_DIR)/*.*) $(EXTRA_DEPENDENCIES)
-	@echo '#include "picoenvmon/ls027b4/msb1stimage.hpp"' > ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/digit16.png           img_digit16         >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/digit32.png           img_digit32         >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/degc.png              img_degc            >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/percent.png           img_percent         >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/hpa.png               img_hpa             >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/ppm.png               img_ppm             >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/step.png              img_step            >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/marker_left.png       img_marker_left     >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/marker_down.png       img_marker_down     >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/marker_up.png         img_marker_up       >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/marker_left_mask.png  img_marker_left_mask>> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/marker_down_mask.png  img_marker_down_mask>> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/marker_up_mask.png    img_marker_up_mask  >> ./src/picoenvmon/ls027b4/images.cpp
-	./make_image_data.py    ./bmp/logo.png              img_logo            >> ./src/picoenvmon/ls027b4/images.cpp
+	@echo '#include "picoenvmon/ls027b4/msb1stimage.hpp"' > $(IMAGES_CPP)
+	@echo 'namespace shapoco::picoenvmon::ls027b4 {' >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/digit16.png           img_digit16         >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/digit32.png           img_digit32         >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/degc.png              img_degc            >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/percent.png           img_percent         >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/hpa.png               img_hpa             >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/ppm.png               img_ppm             >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/step.png              img_step            >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/marker_left.png       img_marker_left     >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/marker_down.png       img_marker_down     >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/marker_up.png         img_marker_up       >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/marker_left_mask.png  img_marker_left_mask>> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/marker_down_mask.png  img_marker_down_mask>> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/marker_up_mask.png    img_marker_up_mask  >> $(IMAGES_CPP)
+	./make_image_data.py    ./bmp/logo.png              img_logo            >> $(IMAGES_CPP)
+	@echo '}' >> $(IMAGES_CPP)
 
 $(BIN): $(SRC_LIST) $(EXTRA_DEPENDENCIES)
 	mkdir -p $(BUILD_DIR)

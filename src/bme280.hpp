@@ -1,5 +1,4 @@
-#ifndef BME280_HPP
-#define BME280_HPP
+#pragma once
 
 #include "stdint.h"
 #include "pico/stdlib.h"
@@ -171,4 +170,3 @@ public:
     }
 };
 
-#endif

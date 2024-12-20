@@ -1,4 +1,5 @@
 #include "picoenvmon/ls027b4/msb1stimage.hpp"
+namespace shapoco::picoenvmon::ls027b4 {
 
 const uint8_t img_digit16_data[] = {
     119, 0, 16, 0,
@@ -244,3 +245,4 @@ const uint8_t img_logo_data[] = {
 };
 
 Msb1stImage img_logo((uint8_t*)img_logo_data);
+}

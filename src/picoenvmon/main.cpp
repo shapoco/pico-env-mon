@@ -15,6 +15,10 @@
 
 #include "mhz19c.hpp"
 
+namespace shapoco::picoenvmon {
+
+using namespace ls027b4; // todo: delete
+
 static const int FIRM_VER_MAJOR = 0;
 static const int FIRM_VER_MINOR = 4;
 
@@ -30,8 +34,8 @@ static const int GRAPH_SHIFT_INTERVAL_MS = GRAPH_TIME_RANGE_H * 3600 * 1000 / Gr
 // 補正値の適正値はセンサの使用条件により異なる
 static const float TEMPERATURE_OFFSET = -1.5f;
 
-ls027b4dh01::Screen screen;
-ls027b4dh01::Driver lcd(spi_default, 20, 22, 21);
+Screen screen;
+Driver lcd(spi_default, 20, 22, 21);
 
 BME280 bme280(spi_default, 17);
 MHZ19C mhz19c(uart0, 0, 1);
@@ -210,8 +214,8 @@ static void draw_logo() {
     static constexpr int PADDING = 10;
     int w = img_logo.width + PADDING * 2;
     int h = img_logo.height + img_digit16.height + PADDING * 2 + PADDING / 2;
-    int x0 = (ls027b4dh01::SCREEN_WIDTH - w) / 2;
-    int y0 = (ls027b4dh01::SCREEN_HEIGHT - h) / 2;
+    int x0 = (SCREEN_WIDTH - w) / 2;
+    int y0 = (SCREEN_HEIGHT - h) / 2;
     
     screen.fill_rect(x0 - 1, y0 - 1, w + 2, h + 2, 1);
     screen.draw_rect(x0, y0, w - 1, h - 1, 0);
@@ -223,3 +227,10 @@ static void draw_logo() {
     int sw = digit16_measure_width(s) - DIGIT16_GAP;
     digit16_draw_string(screen, x0 + (w - sw) / 2, y0 + PADDING * 3 / 2 + img_logo.height, s);
 }
+
+}
+
+int main() {
+    return shapoco::picoenvmon::main();
+}
+

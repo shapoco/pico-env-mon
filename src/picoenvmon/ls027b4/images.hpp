@@ -1,7 +1,9 @@
-#ifndef IMAGES_HPP
-#define IMAGES_HPP
+#pragma once
 
 #include "picoenvmon/ls027b4/msb1stimage.hpp"
+
+namespace shapoco::picoenvmon::ls027b4 {
+
 extern Msb1stImage img_digit16;
 extern Msb1stImage img_digit32;
 extern Msb1stImage img_degc;
@@ -17,4 +19,4 @@ extern Msb1stImage img_marker_down_mask;
 extern Msb1stImage img_marker_up_mask;
 extern Msb1stImage img_logo;
 
-#endif
+}

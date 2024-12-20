@@ -4,6 +4,8 @@
 #include "picoenvmon/ls027b4/images.hpp"
 #include "picoenvmon/ls027b4/digit16.hpp"
 
+namespace shapoco::picoenvmon::ls027b4 {
+
 int digit16_draw_char(Msb1stImage &dest, int dx, int dy, char c, PixelOp op) {
     int w, h = 16;
     int sx = -1;
@@ -51,4 +53,6 @@ int digit16_draw_string(Msb1stImage &dest, int x, int y, const char *s, PixelOp 
 int digit16_measure_width(const char *s) {
     Msb1stImage *dummy = nullptr;
     return digit16_draw_string(*dummy, 0, 0, s, PixelOp::NOP);
+}
+
 }
