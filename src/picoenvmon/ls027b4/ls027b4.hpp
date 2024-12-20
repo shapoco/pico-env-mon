@@ -6,7 +6,8 @@
 
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
-#include "msb1stimage.hpp"
+
+#include "picoenvmon/ls027b4/msb1stimage.hpp"
 
 namespace ls027b4dh01 {
 

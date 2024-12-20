@@ -13,12 +13,17 @@ pico_sdk_init()
 
 add_executable(pico_env_mon)
 
+target_include_directories(
+    pico_env_mon PRIVATE
+    src
+)
+
 target_sources(
     pico_env_mon PRIVATE 
-    src/pico_env_mon.cpp 
-    src/digit16.cpp 
-    src/digit32.cpp 
-    src/images.cpp
+    src/picoenvmon/main.cpp 
+    src/picoenvmon/ls027b4/digit16.cpp 
+    src/picoenvmon/ls027b4/digit32.cpp 
+    src/picoenvmon/ls027b4/images.cpp
 )
 
 target_link_libraries(pico_env_mon PRIVATE pico_stdlib hardware_spi)

@@ -3,7 +3,9 @@
 
 #include "stdint.h"
 #include "math.h"
-#include "msb1stimage.hpp"
+
+#include "picoenvmon/ls027b4/msb1stimage.hpp"
+#include "picoenvmon/ls027b4/images.hpp"
 
 class Graph {
 public:

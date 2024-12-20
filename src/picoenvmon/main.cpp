@@ -4,12 +4,12 @@
 #include "pico/binary_info.h"
 #include "hardware/spi.h"
 
-#include "ls027b4dh01.hpp"
-#include "images.hpp"
-#include "digit16.hpp"
-#include "digit32.hpp"
+#include "picoenvmon/ls027b4/ls027b4.hpp"
+#include "picoenvmon/ls027b4/images.hpp"
+#include "picoenvmon/ls027b4/digit16.hpp"
+#include "picoenvmon/ls027b4/digit32.hpp"
 
-#include "graph.hpp"
+#include "picoenvmon/graph.hpp"
 
 #include "bme280.hpp"
 

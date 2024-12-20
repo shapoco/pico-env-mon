@@ -14,7 +14,12 @@ ELF_NAME = $(APP_NAME).elf
 BIN = $(BIN_DIR)/$(BIN_NAME)
 ELF = $(BIN_DIR)/$(ELF_NAME)
 
-SRC_LIST = $(wildcard $(SRC_DIR)/*.*)
+IMAGES_CPP = $(SRC_DIR)/picoenvmon/ls027b4/images.cpp
+
+SRC_LIST = \
+	$(wildcard $(SRC_DIR)/*.*) \
+	$(wildcard $(SRC_DIR)/picoenvmon/*.*) \
+	$(wildcard $(SRC_DIR)/picoenvmon/ls027b4/*.*)
 
 EXTRA_DEPENDENCIES = \
 	Makefile \
@@ -22,24 +27,24 @@ EXTRA_DEPENDENCIES = \
 
 all: $(BIN)
 
-bmp: $(SRC_DIR)/images.cpp
+bmp: $(IMAGES_CPP)
 
-$(SRC_DIR)/images.cpp: $(wildcard $(BMP_DIR)/*.*) $(EXTRA_DEPENDENCIES)
-	@echo '#include "msb1stimage.hpp"' > ./src/images.cpp
-	./make_image_data.py    ./bmp/digit16.png           img_digit16         >> ./src/images.cpp
-	./make_image_data.py    ./bmp/digit32.png           img_digit32         >> ./src/images.cpp
-	./make_image_data.py    ./bmp/degc.png              img_degc            >> ./src/images.cpp
-	./make_image_data.py    ./bmp/percent.png           img_percent         >> ./src/images.cpp
-	./make_image_data.py    ./bmp/hpa.png               img_hpa             >> ./src/images.cpp
-	./make_image_data.py    ./bmp/ppm.png               img_ppm             >> ./src/images.cpp
-	./make_image_data.py    ./bmp/step.png              img_step            >> ./src/images.cpp
-	./make_image_data.py    ./bmp/marker_left.png       img_marker_left     >> ./src/images.cpp
-	./make_image_data.py    ./bmp/marker_down.png       img_marker_down     >> ./src/images.cpp
-	./make_image_data.py    ./bmp/marker_up.png         img_marker_up       >> ./src/images.cpp
-	./make_image_data.py    ./bmp/marker_left_mask.png  img_marker_left_mask>> ./src/images.cpp
-	./make_image_data.py    ./bmp/marker_down_mask.png  img_marker_down_mask>> ./src/images.cpp
-	./make_image_data.py    ./bmp/marker_up_mask.png    img_marker_up_mask  >> ./src/images.cpp
-	./make_image_data.py    ./bmp/logo.png              img_logo            >> ./src/images.cpp
+$(IMAGES_CPP): $(wildcard $(BMP_DIR)/*.*) $(EXTRA_DEPENDENCIES)
+	@echo '#include "picoenvmon/ls027b4/msb1stimage.hpp"' > ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/digit16.png           img_digit16         >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/digit32.png           img_digit32         >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/degc.png              img_degc            >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/percent.png           img_percent         >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/hpa.png               img_hpa             >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/ppm.png               img_ppm             >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/step.png              img_step            >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/marker_left.png       img_marker_left     >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/marker_down.png       img_marker_down     >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/marker_up.png         img_marker_up       >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/marker_left_mask.png  img_marker_left_mask>> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/marker_down_mask.png  img_marker_down_mask>> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/marker_up_mask.png    img_marker_up_mask  >> ./src/picoenvmon/ls027b4/images.cpp
+	./make_image_data.py    ./bmp/logo.png              img_logo            >> ./src/picoenvmon/ls027b4/images.cpp
 
 $(BIN): $(SRC_LIST) $(EXTRA_DEPENDENCIES)
 	mkdir -p $(BUILD_DIR)
@@ -68,3 +73,6 @@ clean:
 
 distclean: clean
 	rm -rf bin
+	rm -f build/*.uf2
+	rm -f build/*.elf
+

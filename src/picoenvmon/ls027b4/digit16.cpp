@@ -1,7 +1,8 @@
 #include "stdint.h"
-#include "msb1stimage.hpp"
-#include "images.hpp"
-#include "digit16.hpp"
+
+#include "picoenvmon/ls027b4/msb1stimage.hpp"
+#include "picoenvmon/ls027b4/images.hpp"
+#include "picoenvmon/ls027b4/digit16.hpp"
 
 int digit16_draw_char(Msb1stImage &dest, int dx, int dy, char c, PixelOp op) {
     int w, h = 16;

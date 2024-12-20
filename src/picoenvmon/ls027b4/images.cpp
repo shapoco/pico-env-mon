@@ -1,4 +1,4 @@
-#include "msb1stimage.hpp"
+#include "picoenvmon/ls027b4/msb1stimage.hpp"
 
 const uint8_t img_digit16_data[] = {
     119, 0, 16, 0,

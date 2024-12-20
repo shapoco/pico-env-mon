@@ -1,7 +1,7 @@
 #ifndef IMAGES_HPP
 #define IMAGES_HPP
 
-#include "msb1stimage.hpp"
+#include "picoenvmon/ls027b4/msb1stimage.hpp"
 extern Msb1stImage img_digit16;
 extern Msb1stImage img_digit32;
 extern Msb1stImage img_degc;

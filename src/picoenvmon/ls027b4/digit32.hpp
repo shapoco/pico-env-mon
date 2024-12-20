@@ -1,7 +1,7 @@
 #ifndef DIGIT32_HPP
 #define DIGIT32_HPP
 
-#include "msb1stimage.hpp"
+#include "picoenvmon/ls027b4/msb1stimage.hpp"
 
 static constexpr int DIGIT32_GAP = 4;
 

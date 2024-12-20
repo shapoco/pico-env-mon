@@ -1,7 +1,8 @@
 #include "stdint.h"
-#include "msb1stimage.hpp"
-#include "images.hpp"
-#include "digit32.hpp"
+
+#include "picoenvmon/ls027b4/msb1stimage.hpp"
+#include "picoenvmon/ls027b4/images.hpp"
+#include "picoenvmon/ls027b4/digit32.hpp"
 
 int digit32_draw_char(Msb1stImage &dest, int dx, int dy, char c, PixelOp op) {
     int w, h = 32;
