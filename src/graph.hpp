@@ -1,14 +1,15 @@
 #pragma once
 
-#include "stdint.h"
-#include "math.h"
+#include <stdint.h>
+#include <math.h>
 
-#include "picoenvmon/ls027b4/msb1stimage.hpp"
-#include "picoenvmon/ls027b4/images.hpp"
+#include <nyna/graphics/graphics.hpp>
 
-namespace shapoco::picoenvmon {
+#include "images/images.hpp"
 
-using namespace ls027b4; // todo: delete
+namespace picoenvmon {
+
+namespace g = nyna::graphics;
 
 class Graph {
 public:
@@ -91,7 +92,7 @@ public:
         }
     }
 
-    void render(Msb1stImage &dest) {
+    void render(g::Bitmap1bpp &dest) {
         if (num_data <= 0) return;
 
         int x_plot = left + WIDTH - 1;
@@ -105,9 +106,8 @@ public:
             int y_top = y_offset - max_log[i] * y_zoom;
             int y_bottom = y_offset - min_log[i] * y_zoom;
 
-            dest.fill_rect(x_plot, y_top, 1, y_bottom - y_top + 2, 0);
-            dest.fill_rect_with_pattern(
-                x_plot, y_bottom, 1, top + HEIGHT - y_bottom);
+            dest.fillRect(x_plot, y_top, 1, y_bottom - y_top + 2, g::BLACK);
+            dest.fillRect(x_plot, y_bottom, 1, top + HEIGHT - y_bottom, g::BLACK, g::PixelOp::SRC_PATTERN);
 
             x_plot -= 1;
         }
@@ -129,43 +129,48 @@ public:
         else if (y_scale > 1) horizontal_line_step = 0.5f;
         else horizontal_line_step = 0.2f;
         
+        g::Pen dotted = g::DEFAULT_PEN;
+        dotted.dotPeriod = 3;
+        dotted.dotPattern = 1;
+
         // draw horizontal lines
         float level = horizontal_line_step * ceilf(level_bottom / horizontal_line_step);
         while (level < level_top) {
             int y_line = y_offset - level * y_zoom;
-            dest.draw_horizontal_dotted_line(left, y_line, WIDTH);
+            dest.drawLine(left, y_line, left + WIDTH, y_line, g::BLACK, dotted);
             level += horizontal_line_step;
         }
 
         // draw vertical lines
         for (int x_line = left + WIDTH - 1; x_line > left; x_line -= VERTICAL_LINE_STEP) {
-            dest.draw_vertical_dotted_line(x_line, top, HEIGHT);
+            dest.drawLine(x_line, top, x_line, top + HEIGHT, g::BLACK, dotted);
         }
 
         // Min marker
         if (total_min_idx >= 0) {
-            int x = left + WIDTH - total_min_idx - img_marker_down.width / 2;
-            int y = (y_offset - min_log[total_min_idx] * y_zoom) - img_marker_down_mask.height;
-            dest.draw_image(img_marker_down_mask, x - 1, y - 1, PixelOp::OR);
-            dest.draw_image(img_marker_down, x, y, PixelOp::AND);
+            int x = left + WIDTH - total_min_idx - images::marker_down_mask.width / 2 - 1;
+            int y = (y_offset - min_log[total_min_idx] * y_zoom) - images::marker_down_mask.height;
+            dest.drawBitmap(x, y, images::marker_down_mask, g::PixelOp::GATE_OR);
+            dest.drawBitmap(x + 1, y + 1, images::marker_down, g::PixelOp::GATE_AND);
         }
 
         // Max marker
         if (total_max_idx >= 0) {
-            int x = left + WIDTH - total_max_idx - img_marker_up_mask.width / 2;
+            int x = left + WIDTH - total_max_idx - images::marker_up_mask.width / 2 - 1;
             int y = (y_offset - max_log[total_max_idx] * y_zoom);
-            dest.draw_image(img_marker_up_mask, x, y, PixelOp::AND);
-            dest.draw_image(img_marker_up, x + 1, y + 1, PixelOp::OR);
+            dest.drawBitmap(x, y, images::marker_up_mask, g::PixelOp::GATE_AND);
+            dest.drawBitmap(x + 1, y + 1, images::marker_up, g::PixelOp::GATE_OR);
         }
 
         // Latest value marker        
         if (num_data > 0) {
             int x = left + WIDTH;
-            int y = y_offset - latest_value * y_zoom - img_marker_left.height / 2;
-            dest.draw_image(img_marker_left_mask, x - 1, y - 1, PixelOp::OR);
-            dest.draw_image(img_marker_left, x, y, PixelOp::AND);
+            int y = y_offset - latest_value * y_zoom - images::marker_left_mask.height / 2 - 1;
+            dest.drawBitmap(x, y, images::marker_left_mask, g::PixelOp::GATE_OR);
+            dest.drawBitmap(x + 1, y + 1, images::marker_left, g::PixelOp::GATE_AND);
         }
     }
+
 };
 
 }
