@@ -9,7 +9,8 @@ public:
     enum SensorType {
         UNKNOWN = 0,    // Unknown or invalid sensor
         MH_Z19,         // Winsen MH-Z19 series NDIR CO2 sensor (MH-Z19B & MH-Z19C)
-        SENSEAIR_S8     // Senseair S8 series NDIR CO2 sensor (Residential & Commercial & LP)
+        SENSEAIR_S8,    // Senseair S8 series NDIR CO2 sensor (Residential & Commercial & LP)
+        GUANGZHOU_HC8   // 广州海谷电子科技有限公司 (Guangzhou Haigu Electronic Technology Co., Ltd.) NDIR CO2 sensor (PCB marked "CO2-C8 V4")
     };
 
     // Constructor
@@ -40,6 +41,7 @@ private:
     // Checks if current sensor is this type
     bool detectMHZ19();
     bool detectSenseairS8();
+    bool detectHC8();
     
     // Waits for sensor to start returning valid readings as to not add invalid data to trend graphs
     bool waitForWarmUp(uint8_t timeout_s);
@@ -47,10 +49,12 @@ private:
     // Handles ABC configuration for each specific sensorType
     bool ABCMHZ19(uint8_t ABCvalue);
     bool ABCSenseairS8(uint8_t ABCvalue);
+    bool ABCHC8(uint8_t ABCvalue);
 
     // Handles CO2 measurement functions for each specific sensorType
     bool getMHZ19Reading(int* co2_ppm);
     bool getSenseairS8Reading(int* co2_ppm);
+    bool getHC8Reading(int* co2_ppm);
     
     // Use instead of uart_read_blocking to gracefully handle missing UART bytes
     bool uart_read_with_timeout(uart_inst_t *uart, uint8_t *buffer, uint8_t x, uint32_t timeout_us = 100000);

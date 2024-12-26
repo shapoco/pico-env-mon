@@ -13,7 +13,7 @@ bool CO2Sensor::init() {
     gpio_set_function(_tx_pin, GPIO_FUNC_UART);
     gpio_set_function(_rx_pin, GPIO_FUNC_UART);
     
-    if (detectSensorType() && waitForWarmUp(10)) {
+    if (detectSensorType() && waitForWarmUp(15)) {
         return true; // Initialisation successful
     }
     return false;
@@ -31,6 +31,10 @@ bool CO2Sensor::detectSensorType() {
         } 
         else if (detectSenseairS8()) {
             _sensor = SENSEAIR_S8;
+            return true;
+        } 
+        else if (detectHC8()) {
+            _sensor = GUANGZHOU_HC8;
             return true;
         } 
     }
@@ -52,7 +56,7 @@ bool CO2Sensor::waitForWarmUp(uint8_t timeout_s) {
         uart_read_purge(_uart);
         
         if (getCO2Reading(&co2_ppm)) {
-            if (co2_ppm > 10) {
+            if (co2_ppm > 10 && co2_ppm < 50000) {
                 return true;
             }
         }
@@ -66,6 +70,9 @@ bool CO2Sensor::ABC(uint8_t ABCvalue) {
     } 
     else if (_sensor == SENSEAIR_S8) {
         return ABCSenseairS8(ABCvalue);
+    } 
+    else if (_sensor == GUANGZHOU_HC8) {
+        return ABCHC8(ABCvalue);
     } 
     else {
         return false;  // Unknown or invalid sensor type
@@ -118,6 +125,11 @@ bool CO2Sensor::ABCSenseairS8(uint8_t ABCvalue) {
     }
 }
 
+bool CO2Sensor::ABCHC8(uint8_t ABCvalue) {
+   // Unable to find information on how to change ABC settings or if disabling it is supported on the HC8.
+   return false; // Not implemented, always return unsuccessful result.
+}
+
 bool CO2Sensor::detectMHZ19() {
     // Winsen devices don't appear to have a device/type ID, just check for valid reading instead
     int co2_ppm = -1; 
@@ -142,6 +154,18 @@ bool CO2Sensor::detectSenseairS8() {
     return false;
 }
 
+bool CO2Sensor::detectHC8() {
+    // HC8 doesn't appear to have a device/type ID, just check for valid reading instead
+    int co2_ppm = -1; 
+    
+    if (getHC8Reading(&co2_ppm)) {
+        if (co2_ppm >= 0 && co2_ppm <= 6000) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool CO2Sensor::getCO2Reading(int* co2_ppm) {
     if (co2_ppm == nullptr) {
         *co2_ppm = -1;
@@ -153,6 +177,9 @@ bool CO2Sensor::getCO2Reading(int* co2_ppm) {
     } 
     else if (_sensor == SENSEAIR_S8) {
         return getSenseairS8Reading(co2_ppm);
+    } 
+    else if (_sensor == GUANGZHOU_HC8) {
+        return getHC8Reading(co2_ppm);
     } 
     else {
         *co2_ppm = -1;
@@ -197,6 +224,30 @@ bool CO2Sensor::getSenseairS8Reading(int *co2_ppm) {
         if (resp[0] == 0xFE && resp[1] == 0x04) {
             *co2_ppm = (resp[3] << 8) | resp[4];
             // TODO: Add checksum logic
+            return true; // Reading successful.
+        }
+        else {
+            return false; // Reading failed. Response ID was invalid.
+        }
+    }
+    else {
+        return false; // Reading failed. Timed out trying to read UART response.
+    }
+}
+
+bool CO2Sensor::getHC8Reading(int *co2_ppm) {
+    uint8_t cmd[] = {0x64, 0x69, 0x03, 0x5E, 0x4E}; // HC8 on-demand measurement, disables once per second measurements
+    uint8_t resp[14];
+    
+    uart_read_purge(_uart);
+    
+    uart_write_blocking(_uart, cmd, sizeof(cmd));
+    sleep_ms(50);
+    
+    if (uart_read_with_timeout(_uart, resp, sizeof(resp))) {
+        if (resp[0] == 0x64 && resp[1] == 0x69) {
+            *co2_ppm = (resp[5] << 8) | resp[4];
+            // TODO: Add checksum logic (HC8 seems to just add bytes for checksum)
             return true; // Reading successful.
         }
         else {
