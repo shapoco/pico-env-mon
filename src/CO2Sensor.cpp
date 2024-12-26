@@ -16,7 +16,7 @@ bool CO2Sensor::init() {
     if (detectSensorType() && waitForWarmUp(15)) {
         return true; // Initialisation successful
     }
-    return false;
+    return false; // Initialisation failed, likely that no sensor is connected
 }
 
 bool CO2Sensor::detectSensorType() {
@@ -25,15 +25,15 @@ bool CO2Sensor::detectSensorType() {
         
         uart_read_purge(_uart);
         
-        if (detectMHZ19()) {
-            _sensor = MH_Z19;
+        if (detectWINSEN_MH_Z()) {
+            _sensor = WINSEN_MH_Z;
             return true;
         } 
-        else if (detectSenseairS8()) {
+        else if (detectSENSEAIR_S8()) {
             _sensor = SENSEAIR_S8;
             return true;
         } 
-        else if (detectHC8()) {
+        else if (detectGUANGZHOU_HC8()) {
             _sensor = GUANGZHOU_HC8;
             return true;
         } 
@@ -41,7 +41,6 @@ bool CO2Sensor::detectSensorType() {
     
     _sensor = UNKNOWN;
     return false;
-
 }
 
 bool CO2Sensor::waitForWarmUp(uint8_t timeout_s) {  
@@ -55,7 +54,7 @@ bool CO2Sensor::waitForWarmUp(uint8_t timeout_s) {
         
         uart_read_purge(_uart);
         
-        if (getCO2Reading(&co2_ppm)) {
+        if (getCO2ppm(&co2_ppm)) {
             if (co2_ppm > 10 && co2_ppm < 50000) {
                 return true;
             }
@@ -64,26 +63,27 @@ bool CO2Sensor::waitForWarmUp(uint8_t timeout_s) {
     return false;
 }
 
-bool CO2Sensor::ABC(uint8_t ABCvalue) {
-    if (_sensor == MH_Z19) {
-        return ABCMHZ19(ABCvalue);
+bool CO2Sensor::setABC(uint8_t ABCvalue) {
+    if (_sensor == WINSEN_MH_Z) {
+        return setABCWINSEN_MH_Z(ABCvalue);
     } 
     else if (_sensor == SENSEAIR_S8) {
-        return ABCSenseairS8(ABCvalue);
+        return setABCSENSEAIR_S8(ABCvalue);
     } 
     else if (_sensor == GUANGZHOU_HC8) {
-        return ABCHC8(ABCvalue);
+        return setABCGUANGZHOU_HC8(ABCvalue);
     } 
     else {
         return false;  // Unknown or invalid sensor type
     }
 }
 
-bool CO2Sensor::ABCMHZ19(uint8_t ABCvalue) {
+bool CO2Sensor::setABCWINSEN_MH_Z(uint8_t ABCvalue) {
     uint8_t cmd[] = {0xFF, 0x01, 0x79, 0xA0, 0x00, 0x00, 0x00, 0x00, 0xE6}; // Enable ABC with default period
     uint8_t resp[9];
     
     if (ABCvalue == 0x00) {
+        // TODO: Allow for arbitrary ABC values, units for BYTE3 are unclear, only 0xA0 is mentioned as supported
         cmd[3] = 0x00; // ABC value (0x00 = disabled)
         cmd[8] = 0x86; // Custom checksum, add all bytes then 0xFF-result
     }
@@ -94,15 +94,14 @@ bool CO2Sensor::ABCMHZ19(uint8_t ABCvalue) {
     uart_read_purge(_uart);
     sleep_ms(100);
     
-    
     return true; // Assumed successful.
 }
 
-bool CO2Sensor::ABCSenseairS8(uint8_t ABCvalue) {
+bool CO2Sensor::setABCSENSEAIR_S8(uint8_t ABCvalue) {
     uint8_t cmd[] = {0xFE, 0x06, 0x00, 0x1F, 0x00, 0xB4, 0xAC, 0x74}; // Enable ABC with default 7.5 day period
     
     if (ABCvalue == 0x00) {
-        // TODO: Allow for arbitrary ABC values, not just default 0xB4 (
+        // TODO: Allow for arbitrary ABC values, not just default 0xB4
         cmd[5] = 0X00; // ABC value
         cmd[6] = 0XAC; // Checksum lower (CRC-16/MODBUS)
         cmd[7] = 0X03; // Checksum upper
@@ -125,16 +124,16 @@ bool CO2Sensor::ABCSenseairS8(uint8_t ABCvalue) {
     }
 }
 
-bool CO2Sensor::ABCHC8(uint8_t ABCvalue) {
+bool CO2Sensor::setABCGUANGZHOU_HC8(uint8_t ABCvalue) {
    // Unable to find information on how to change ABC settings or if disabling it is supported on the HC8.
    return false; // Not implemented, always return unsuccessful result.
 }
 
-bool CO2Sensor::detectMHZ19() {
+bool CO2Sensor::detectWINSEN_MH_Z() {
     // Winsen devices don't appear to have a device/type ID, just check for valid reading instead
     int co2_ppm = -1; 
     
-    if (getMHZ19Reading(&co2_ppm)) {
+    if (getWINSEN_MH_ZCO2ppm(&co2_ppm)) {
         if (co2_ppm >= 0 && co2_ppm <= 10000) {
             return true;
         }
@@ -142,11 +141,11 @@ bool CO2Sensor::detectMHZ19() {
     return false;
 }
 
-bool CO2Sensor::detectSenseairS8() {
+bool CO2Sensor::detectSENSEAIR_S8() {
     // TODO: Check device ID using either IR26/IR27 Type ID or IR30/IR31 Sensor ID
     int co2_ppm = -1; 
     
-    if (getSenseairS8Reading(&co2_ppm)) {
+    if (getSENSEAIR_S8CO2ppm(&co2_ppm)) {
         if (co2_ppm >= 0 && co2_ppm <= 10000) {
             return true;
         }
@@ -154,11 +153,11 @@ bool CO2Sensor::detectSenseairS8() {
     return false;
 }
 
-bool CO2Sensor::detectHC8() {
+bool CO2Sensor::detectGUANGZHOU_HC8() {
     // HC8 doesn't appear to have a device/type ID, just check for valid reading instead
     int co2_ppm = -1; 
     
-    if (getHC8Reading(&co2_ppm)) {
+    if (getGUANGZHOU_HC8ppm(&co2_ppm)) {
         if (co2_ppm >= 0 && co2_ppm <= 6000) {
             return true;
         }
@@ -166,20 +165,20 @@ bool CO2Sensor::detectHC8() {
     return false;
 }
 
-bool CO2Sensor::getCO2Reading(int* co2_ppm) {
+bool CO2Sensor::getCO2ppm(int* co2_ppm) {
     if (co2_ppm == nullptr) {
         *co2_ppm = -1;
         return false;  // Pointer is invalid
     }
 
-    if (_sensor == MH_Z19) {
-        return getMHZ19Reading(co2_ppm);
+    if (_sensor == WINSEN_MH_Z) {
+        return getWINSEN_MH_ZCO2ppm(co2_ppm);
     } 
     else if (_sensor == SENSEAIR_S8) {
-        return getSenseairS8Reading(co2_ppm);
+        return getSENSEAIR_S8CO2ppm(co2_ppm);
     } 
     else if (_sensor == GUANGZHOU_HC8) {
-        return getHC8Reading(co2_ppm);
+        return getGUANGZHOU_HC8ppm(co2_ppm);
     } 
     else {
         *co2_ppm = -1;
@@ -187,7 +186,7 @@ bool CO2Sensor::getCO2Reading(int* co2_ppm) {
     }
 }
 
-bool CO2Sensor::getMHZ19Reading(int* co2_ppm) {
+bool CO2Sensor::getWINSEN_MH_ZCO2ppm(int* co2_ppm) {
     uint8_t cmd[] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79}; // for Winsen MH-Z19
     uint8_t resp[9];
     
@@ -211,7 +210,7 @@ bool CO2Sensor::getMHZ19Reading(int* co2_ppm) {
     }
 }
 
-bool CO2Sensor::getSenseairS8Reading(int *co2_ppm) {
+bool CO2Sensor::getSENSEAIR_S8CO2ppm(int *co2_ppm) {
     uint8_t cmd[] = {0xFE, 0X04, 0X00, 0X03, 0X00, 0X01, 0XD5, 0XC5}; // for Senseair S8 LP
     uint8_t resp[7];
     
@@ -235,7 +234,7 @@ bool CO2Sensor::getSenseairS8Reading(int *co2_ppm) {
     }
 }
 
-bool CO2Sensor::getHC8Reading(int *co2_ppm) {
+bool CO2Sensor::getGUANGZHOU_HC8ppm(int *co2_ppm) {
     uint8_t cmd[] = {0x64, 0x69, 0x03, 0x5E, 0x4E}; // HC8 on-demand measurement, disables once per second measurements
     uint8_t resp[14];
     

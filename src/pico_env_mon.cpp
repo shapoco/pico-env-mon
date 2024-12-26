@@ -65,7 +65,7 @@ int main() {
     bme280.init();
 
     co2_sensor.init();
-    co2_sensor.ABC(false);
+    co2_sensor.setABC(false);
 
     absolute_time_t t_next_lcd_toggle = make_timeout_time_ms(LCD_TOGGLE_INTERVAL_MS);
     int sampling_interval_counter = SAMPLING_INTERVAL_MS;
@@ -111,7 +111,7 @@ static void sample(bool shift) {
 
     // read CO2
     int co2 = -1;
-    co2_sensor.getCO2Reading(&co2);
+    co2_sensor.getCO2ppm(&co2);
 
     // enter new value to the graphs
     graph_t.push(temperature, shift);
